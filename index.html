@@ -124,7 +124,7 @@
         <button class="channel-button" style="background: linear-gradient(45deg, #004e92, #000); border: 1px solid #fff;" onclick="loadMatch('ss1_hd_india')">Star Sports 1 HD</button>
         <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
         <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_2')">CRICBUZZ 2</button>
-        <button class="channel-button hotstar-btn" onclick="loadMatch('hotstar_kick')">HOTSTAR HINDI (KICK)</button>
+        <button class="channel-button hotstar-btn" onclick="loadMatch('hotstar_hindi')">HOTSTAR HINDI</button>
         <button class="channel-button special-btn" onclick="loadMatch('prime_live')">PRIME LIVE</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('sky_nz_4k')">Sky Sports NZ 4k</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #00, #333); border: 1px solid #00d2ff;" onclick="loadMatch('prime_event')">PRIME EVENT</button>
@@ -151,21 +151,19 @@
 
 <script>
     const channels = {
-        // Naye Updated Links
+        // Star Sports 2 HD Hindi Updated Link
+        'in_ss2_hd_hindi': 'https://live4wap.pages.dev',
+        
+        // Baaki Channels same
+        'hotstar_hindi': 'https://matcheslinkz.pages.dev/hindi',
+        'in_ss1_hindi': 'https://www.matcheslinks.site/sshindi1hd',
+        'in_ss2_sd_hindi': 'https://www.matcheslinks.site/sshindi1sd',
         'prime_live': 'https://khel-box.github.io/Wlo',
         'willow': 'https://golu.allinonereborn.fun/willo.html',
         'sky_nz_4k': 'https://khel-box.github.io/Willext',
-        
-        // Pehle se Updated Links
         'ss1_telugu': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=4471',
         'ss1_tamil': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=4468',
         'ss1_hd_india': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=4470',
-        'hotstar_kick': 'https://kick.com/mas101a',
-        
-        // Baaki Channels
-        'in_ss1_hindi': 'https://allinonereborn.online/jio-plusede/a/new/player_india.html?id=174',
-        'in_ss2_sd_hindi': 'https://allinonereborn.online/jio-plusede/a/new/player_india.html?id=1985',
-        'in_ss2_hd_hindi': 'https://allinonereborn.online/jio-plusede/a/new/player_india.html?id=1984',
         'in_ss2_sd': 'https://allinonereborn.online/jio-plusede/a/new/player_india.html?id=1141',
         'cricbuzz_1': 'https://allinonereborn.online/mpd/willo.html',
         'cricbuzz_2': 'https://allinonereborn.online/mpd/willo.html',
@@ -186,9 +184,9 @@
         
         let cropClass = 'class="fixed-controls"';
         
-        // Special condition for Kick.com and GitHub pages to fit nicely
-        if (slug === 'hotstar_kick' || slug === 'prime_live' || slug === 'sky_nz_4k') {
-            container.innerHTML = `<iframe id="main-player" src="${channels[slug]}" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>`;
+        // Anti-Popup Sandbox added for the new link as well
+        if (slug === 'in_ss2_hd_hindi' || slug === 'prime_live' || slug === 'sky_nz_4k' || slug === 'hotstar_hindi' || slug === 'in_ss1_hindi' || slug === 'in_ss2_sd_hindi') {
+            container.innerHTML = `<iframe id="main-player" src="${channels[slug]}" style="width:100%; height:100%; border:none;" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" allow="autoplay; encrypted-media; fullscreen" allowfullscreen onload="hideSkeleton()"></iframe>`;
         } else {
             if (slug === 'ss2hd' || slug === 'ss2hd_hindi') {
                 cropClass = 'class="ss2-custom-crop"';
