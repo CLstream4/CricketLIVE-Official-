@@ -43,7 +43,6 @@
         .fixed-controls { height: 100% !important; top: 0 !important; transform: scale(1) !important; }
         .ss2-custom-crop { height: 165% !important; top: -38% !important; transform: scale(1.05); }
         
-        /* Willow Sports Adjusted (Ab Normal Hai) */
         .willow-normal { height: 100% !important; width: 100% !important; top: 0 !important; transform: scale(1) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
@@ -66,6 +65,7 @@
         .hotstar-btn { background: linear-gradient(45deg, #001524, #004e92) !important; color: #fff !important; border: 1px solid #00d2ff !important; }
         .special-btn { background: linear-gradient(45deg, #f9a8d4, #00d2ff) !important; color: #000 !important; }
         .india-btn { background: linear-gradient(45deg, #FF9933, #ffffff, #138808) !important; color: #000 !important; border: 1px solid #fff !important; }
+        .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
 
         #sharePreview { font-size: 10px; color: #00d2ff; background: rgba(17, 24, 39, 0.8); padding: 10px; border-radius: 4px; flex-grow: 1; border: 1px solid rgba(51, 65, 85, 0.5); text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .copy-btn { background: linear-gradient(90deg, #00d2ff, #0072ff); color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
@@ -125,6 +125,8 @@
 
     <div class="section-title">GLOBAL CHANNELS</div>
     <div class="channel-grid">
+        <button class="channel-button sony-btn" onclick="loadMatch('sony_liv_sports1')">Sony LIV Sports 1</button>
+        <button class="channel-button sony-btn" onclick="loadMatch('sony_ten_3')">Sony Ten 3 HD</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #004e92, #000); border: 1px solid #fff;" onclick="loadMatch('ss1_hd_india')">Star Sports 1 HD</button>
         <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
         <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_2')">CRICBUZZ 2</button>
@@ -156,6 +158,8 @@
 
 <script>
     const channels = {
+        'sony_liv_sports1': 'https://matcheslinkz.pages.dev/sonylivsports1',
+        'sony_ten_3': 'https://allinonereborn.store/sony/ptest.php?id=sony-ten-1-hd',
         'in_ss2_hd_hindi': 'https://live4wap.pages.dev',
         'hotstar_hindi': 'https://matcheslinkz.pages.dev/hindi',
         'in_ss1_hindi': 'https://wap4tv.pages.dev/?id=amzonhindi',
@@ -182,14 +186,18 @@
     let popupClosed = false;
 
     function loadMatch(slug) {
+        // Sony Ten 3 select hone par popup hide karna
+        if (slug === 'sony_ten_3') {
+            closePopup();
+        }
+
         currentChannel = slug;
         const container = document.getElementById('player-container');
         document.getElementById('loading-skeleton').style.display = 'block';
         
         let cropClass = 'class="fixed-controls"';
         
-        // Willow Sports ko normal rakha gaya hai zoom ki bajaye
-        if (slug === 'willow') {
+        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3') {
             cropClass = 'class="willow-normal"';
         } else if (slug === 'ss2hd' || slug === 'ss2hd_hindi') {
             cropClass = 'class="ss2-custom-crop"';
