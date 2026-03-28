@@ -43,9 +43,7 @@
         .fixed-controls { height: 100% !important; top: 0 !important; transform: scale(1) !important; }
         .ss2-custom-crop { height: 165% !important; top: -38% !important; transform: scale(1.05); }
         .willow-normal { height: 100% !important; width: 100% !important; top: 0 !important; transform: scale(1) !important; }
-        
-        /* Sky Sports NZ Zoom Fix */
-        .sky-custom-zoom { height: 110% !important; width: 110% !important; top: -5% !important; left: -5% !important; transform: scale(1); }
+        .willow-ios-zoom { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
         @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -120,9 +118,10 @@
     <div class="section-title">🇮🇳 INDIA ONLY</div>
     <div class="channel-grid">
         <button class="channel-button india-btn" onclick="loadMatch('in_ss1_hindi')">Star Sports 1 HD Hindi</button>
-        <button class="channel-button india-btn" onclick="loadMatch('in_ss2_sd_hindi')">Star Sports 2 SD Hindi</button>
+        <button class="channel-button india-btn" onclick="loadMatch('in_ss1_sd_hindi')">Star Sports 1 SD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('in_ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('in_ss2_sd')">Star Sports 2 SD</button>
+        <button class="channel-button india-btn" onclick="loadMatch('ss1_kannada')">Star Sports 1 Kannada</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss3')">Star Sports 3</button>
     </div>
 
@@ -136,7 +135,7 @@
         <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_2')">CRICBUZZ 2</button>
         <button class="channel-button hotstar-btn" onclick="loadMatch('hotstar_hindi')">HOTSTAR HINDI</button>
         <button class="channel-button special-btn" onclick="loadMatch('prime_live')">PRIME LIVE</button>
-        <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('sky_nz_4k')">Sky Sports NZ 4k</button>
+        <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #00, #333); border: 1px solid #00d2ff;" onclick="loadMatch('prime_event')">PRIME EVENT</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #8b0000, #ff0000); border: 1px solid #fff;" onclick="loadMatch('hub_sports')">HUB SPORTS</button>
         <button class="channel-button" onclick="loadMatch('ss_select_1_hd')">SS Select 1 HD</button>
@@ -165,17 +164,18 @@
         'ptv_sports': 'https://allinone-reborn.pages.dev/ptv',
         'sony_liv_sports1': 'https://matcheslinkz.pages.dev/sonylivsports1',
         'sony_ten_3': 'https://sportseera1.pages.dev/SportsEera/jiotv/jioplay?id=3372',
-        'in_ss2_hd_hindi': 'https://live4wap.pages.dev',
+        'in_ss2_hd_hindi': 'https://waptv.pages.dev/?id=1984',
         'hotstar_hindi': 'https://matcheslinkz.pages.dev/hindi',
-        'in_ss1_hindi': 'https://wap4tv.pages.dev/?id=amzonhindi',
-        'in_ss2_sd_hindi': 'https://wap4tv.pages.dev/?id=amzoneng',
+        'in_ss1_hindi': 'https://waptv.pages.dev/?id=174',
+        'in_ss1_sd_hindi': 'https://waptv.pages.dev/?id=148',
         'prime_live': 'https://khel-box.github.io/Hin',
         'willow': 'https://khel-box.github.io/Wlo',
-        'sky_nz_4k': 'https://allinone-reborn.pages.dev/willo-ios',
-        'ss1_telugu': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=4471',
-        'ss1_tamil': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=4468',
-        'ss1_hd_india': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=4470',
-        'in_ss2_sd': 'https://allinonereborn.online/jio-plusede/a/new/player_india.html?id=1141',
+        'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
+        'ss1_telugu': 'https://waptv.pages.dev/?id=4471',
+        'ss1_tamil': 'https://waptv.pages.dev/?id=4468',
+        'ss1_hd_india': 'https://waptv.pages.dev/?id=4470',
+        'in_ss2_sd': 'https://waptv.pages.dev/?id=1141',
+        'ss1_kannada': 'https://waptv.pages.dev/?id=1650',
         'cricbuzz_1': 'https://allinonereborn.online/mpd/tnt1.html',
         'cricbuzz_2': 'https://allinonereborn.online/mpd/willo.html',
         'prime_event': 'https://khel-box.github.io/Willext',
@@ -183,7 +183,7 @@
         'ss_select_1_hd': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=300',
         'ss_select_1_sd': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=1123',
         'ss3': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=147',
-        'ss2hd': 'https://insiderlivehd.pages.dev/Fox',
+        'ss2hd': 'https://waptv.pages.dev/?id=4456',
         'ss2hd_hindi': 'https://teamroiframe11.pages.dev/'
     };
 
@@ -205,8 +205,8 @@
             cropClass = 'class="willow-normal"';
         } else if (slug === 'ss2hd' || slug === 'ss2hd_hindi') {
             cropClass = 'class="ss2-custom-crop"';
-        } else if (slug === 'sky_nz_4k') {
-            cropClass = 'class="sky-custom-zoom"'; // Special zoom for Sky NZ
+        } else if (slug === 'willow_ios') {
+            cropClass = 'class="willow-ios-zoom"';
         }
 
         container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" fetchpriority="high" onload="hideSkeleton()"></iframe>`;
