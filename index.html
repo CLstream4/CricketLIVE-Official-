@@ -117,7 +117,7 @@
 <div id="main-grid">
     <div class="section-title">🇮🇳 INDIA ONLY</div>
     <div class="channel-grid">
-        <button class="channel-button india-btn" onclick="loadMatch('in_ss1_hindi')">Star Sports 1 HD Hindi</button>
+        <button class="channel-button india-btn" onclick="loadMatch('in_ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('in_ss1_sd_hindi')">Star Sports 1 SD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('in_ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('in_ss2_sd')">Star Sports 2 SD</button>
@@ -166,7 +166,7 @@
         'sony_ten_3': 'https://sportseera1.pages.dev/SportsEera/jiotv/jioplay?id=3372',
         'in_ss2_hd_hindi': 'https://waptv.pages.dev/?id=1984',
         'hotstar_hindi': 'https://matcheslinkz.pages.dev/hindi',
-        'in_ss1_hindi': 'https://waptv.pages.dev/?id=174',
+        'in_ss1_hd_hindi': 'https://waptv.pages.dev/?id=174',
         'in_ss1_sd_hindi': 'https://waptv.pages.dev/?id=148',
         'prime_live': 'https://khel-box.github.io/Hin',
         'willow': 'https://khel-box.github.io/Wlo',
@@ -209,7 +209,8 @@
             cropClass = 'class="willow-ios-zoom"';
         }
 
-        container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" fetchpriority="high" onload="hideSkeleton()"></iframe>`;
+        // Updated Sandbox to allow better loading of external pages
+        container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" fetchpriority="high" onload="hideSkeleton()"></iframe>`;
         
         if(popupClosed) showUIParts();
         document.getElementById('watermark').style.display = 'inline-block';
