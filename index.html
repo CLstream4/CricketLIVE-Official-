@@ -140,6 +140,7 @@
         <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #00, #333); border: 1px solid #00d2ff;" onclick="loadMatch('prime_event')">PRIME EVENT</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #8b0000, #ff0000); border: 1px solid #fff;" onclick="loadMatch('hub_sports')">HUB SPORTS</button>
+        <button class="channel-button" style="background: linear-gradient(45deg, #0072ff, #00c6ff); border: 1px solid #fff;" onclick="loadMatch('sky_sports_nz')">SKY Sports NZ</button>
         <button class="channel-button" onclick="loadMatch('ss_select_1_hd')">SS Select 1 HD</button>
         <button class="channel-button" onclick="loadMatch('ss_select_1_sd')">SS Select 1 SD</button>
         <button class="channel-button" onclick="loadMatch('ss2hd')">SS 2 HD</button>
@@ -183,6 +184,7 @@
         'cricbuzz_2': 'https://allinone-reborn.pages.dev/willonew',
         'prime_event': 'https://matcheslinkz.pages.dev/ss2sd',
         'hub_sports': 'https://mini.allinonereborn.fun/skynz.html',
+        'sky_sports_nz': 'https://allinone-reborn.pages.dev/skynz2',
         'ss_select_1_hd': 'https://tvgotk.wapka.fun/english',
         'ss_select_1_sd': 'https://tvgotk.wapka.fun/index.html',
         'ss3': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=147',
@@ -194,7 +196,7 @@
     let popupClosed = false;
 
     function loadMatch(slug) {
-        if (slug === 'hub_sports' || slug === 'sony_ten_3') {
+        if (slug === 'hub_sports' || slug === 'sony_ten_3' || slug === 'sky_sports_nz') {
             closePopup();
         }
 
@@ -204,7 +206,7 @@
         
         let cropClass = 'class="fixed-controls"';
         
-        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3' || slug === 'ptv_sports' || slug === 'jio_hotstar' || slug === 'hub_sports') {
+        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3' || slug === 'ptv_sports' || slug === 'jio_hotstar' || slug === 'hub_sports' || slug === 'sky_sports_nz') {
             cropClass = 'class="willow-normal"';
         } else if (slug === 'ss2hd' || slug === 'ss2hd_hindi') {
             cropClass = 'class="ss2-custom-crop"';
