@@ -182,8 +182,8 @@
         'cricbuzz_1': 'https://allinonereborn.online/mpd/tnt1.html',
         'cricbuzz_2': 'https://allinone-reborn.pages.dev/astr',
         'prime_event': 'https://matcheslinkz.pages.dev/ss2sd',
-        'hub_sports': 'https://allinonereborn.xyz/mpd/hub-sports.html',
-        'ss_select_1_hd': 'https://all-in-one-channel.pages.dev/STAR/HINDI/',
+        'hub_sports': 'https://matcheslinkz.pages.dev/?id=skynz1',
+        'ss_select_1_hd': 'https://tvgotk.wapka.fun/english',
         'ss_select_1_sd': 'https://tvgotk.wapka.fun/index.html',
         'ss3': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=147',
         'ss2hd': 'https://tvgotk.wapka.fun/index.html',
@@ -194,7 +194,8 @@
     let popupClosed = false;
 
     function loadMatch(slug) {
-        if (slug === 'sony_ten_3') {
+        // Hub Sports select hone par popup hide karo
+        if (slug === 'hub_sports' || slug === 'sony_ten_3') {
             closePopup();
         }
 
@@ -204,7 +205,7 @@
         
         let cropClass = 'class="fixed-controls"';
         
-        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3' || slug === 'ptv_sports' || slug === 'jio_hotstar') {
+        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3' || slug === 'ptv_sports' || slug === 'jio_hotstar' || slug === 'hub_sports') {
             cropClass = 'class="willow-normal"';
         } else if (slug === 'ss2hd' || slug === 'ss2hd_hindi') {
             cropClass = 'class="ss2-custom-crop"';
