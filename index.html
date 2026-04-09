@@ -45,6 +45,8 @@
         .willow-normal { height: 100% !important; width: 100% !important; top: 0 !important; transform: scale(1) !important; }
         .willow-ios-zoom { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
         .cricbuzz-zoom { height: 100% !important; width: 100% !important; top: -5px !important; transform: scale(1.08) !important; }
+        /* Hub Sports Zoom for Astr link */
+        .hub-sports-zoom { height: 110% !important; width: 110% !important; top: -5% !important; left: -5% !important; transform: scale(1.05) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
         @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -168,28 +170,28 @@
         'ptv_sports': 'https://allinone-reborn.pages.dev/ptv',
         'sony_liv_sports1': 'https://matcheslinkz.pages.dev/sonylivsports1',
         'sony_ten_3': 'https://sportseera1.pages.dev/SportsEera/jiotv/jioplay?id=3372',
-        'in_ss2_hd_hindi': 'https://tvgotk.wapka.fun/index.html',
+        'in_ss2_hd_hindi': 'https://apiok.pages.dev/?id=4470',
         'hotstar_hindi': 'https://matcheslinkz.pages.dev/ios/?id=hotstar',
-        'in_ss1_hd_hindi': 'https://waptv.pages.dev/?id=174',
-        'in_ss1_sd_hindi': 'https://waptv.pages.dev/?id=148',
+        'in_ss1_hd_hindi': 'https://apiok.pages.dev/?id=174',
+        'in_ss1_sd_hindi': 'https://apiok.pages.dev/?id=148',
         'prime_live': 'https://matcheslinkz.pages.dev/ss1hd',
         'willow': 'https://khel-box.github.io/Wlo',
         'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
-        'ss1_telugu': 'https://waptv.pages.dev/?id=4471',
-        'ss1_tamil': 'https://waptv.pages.dev/?id=4468',
+        'ss1_telugu': 'https://tv4wapok.pages.dev/?id=4471',
+        'ss1_tamil': 'https://tv4wapok.pages.dev/?id=4468',
         'ss1_hd_india': 'https://waptv.pages.dev/?id=4470',
         'in_ss2_sd': 'https://waptv.pages.dev/?id=1141',
-        'ss1_kannada': 'https://waptv.pages.dev/?id=1650',
+        'ss1_kannada': 'https://tv4wapok.pages.dev/?id=1650',
         'cricbuzz_1': 'https://allinonereborn.online/mpd/tnt1.html',
         'cricbuzz_2': 'https://allinone-reborn.pages.dev/willonew',
         'prime_event': 'https://matcheslinkz.pages.dev/ss2sd',
-        'hub_sports': 'https://mini.allinonereborn.fun/skynz.html',
+        'hub_sports': 'https://allinone-reborn.pages.dev/astr',
         'sky_sports_nz': 'https://allinone-reborn.pages.dev/skynz2',
         'ss_select_1_hd': 'https://tvgotk.wapka.fun/english',
         'ss_select_1_sd': 'https://tvgotk.wapka.fun/index.html',
-        'ss3': 'https://allinonereborn.store/jio-plusede/a/new/player_india.html?id=147',
-        'ss2hd': 'https://tvgotk.wapka.fun/index.html',
-        'ss2hd_hindi': 'https://teamroiframe11.pages.dev/'
+        'ss3': 'https://apiok.pages.dev/?id=1142',
+        'ss2hd': 'https://apiok.pages.dev/?id=4456',
+        'ss2hd_hindi': 'https://apiok.pages.dev/?id=4470'
     };
 
     let currentChannel = null;
@@ -206,14 +208,16 @@
         
         let cropClass = 'class="fixed-controls"';
         
-        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3' || slug === 'ptv_sports' || slug === 'jio_hotstar' || slug === 'hub_sports' || slug === 'sky_sports_nz') {
+        if (slug === 'willow' || slug === 'sony_liv_sports1' || slug === 'sony_ten_3' || slug === 'ptv_sports' || slug === 'jio_hotstar' || slug === 'sky_sports_nz') {
             cropClass = 'class="willow-normal"';
-        } else if (slug === 'ss2hd' || slug === 'ss2hd_hindi') {
+        } else if (slug === 'ss2hd' || slug === 'ss2hd_hindi' || slug === 'in_ss2_hd_hindi') {
             cropClass = 'class="ss2-custom-crop"';
         } else if (slug === 'willow_ios') {
             cropClass = 'class="willow-ios-zoom"';
         } else if (slug === 'cricbuzz_2') {
             cropClass = 'class="cricbuzz-zoom"';
+        } else if (slug === 'hub_sports') {
+            cropClass = 'class="hub-sports-zoom"';
         }
 
         container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" fetchpriority="high" onload="hideSkeleton()"></iframe>`;
