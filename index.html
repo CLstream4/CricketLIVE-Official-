@@ -27,7 +27,7 @@
         .reaction-bar { display: none; justify-content: center; gap: 12px; margin: 15px auto; }
         .react-btn { font-size: 24px; cursor: pointer; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); color: white; }
 
-        /* Share Section Styles (1st Screenshot style) */
+        /* Share Box Style */
         .share-section { display: none; align-items: center; justify-content: center; gap: 8px; margin: 15px auto; width: 94%; max-width: 500px; }
         .share-input-box { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; color: #00d2ff; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
         .copy-btn { background: #00d2ff; color: #fff; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
@@ -37,9 +37,9 @@
         .channel-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; font-size: 13px; }
 
         .floating-emoji { position: fixed; bottom: 50px; left: 50%; pointer-events: none; font-size: 45px; z-index: 99999; animation: popBounce 2.5s ease-out forwards; }
-        @keyframes popBounce { 0% { transform: translateY(0) scale(0); opacity: 0; } 20% { transform: translateY(-50px) scale(1.2); opacity: 1; } 100% { transform: translateY(-500px) opacity: 0; } }
+        @keyframes popBounce { 0% { transform: translateY(0) scale(0); opacity: 0; } 20% { transform: translateY(-50px) scale(1.2); opacity: 1; } 100% { transform: translateY(-500px); opacity: 0; } }
 
-        .social-container { display: flex; flex-direction: column; gap: 10px; align-items: center; margin: 15px auto; width: 90%; }
+        #main-footer-btns { display: flex; flex-direction: column; gap: 10px; align-items: center; margin: 15px auto; width: 90%; }
         .join-btn-base { width: 100%; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: bold; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
     </style>
 </head>
@@ -47,7 +47,7 @@
 
 <div id="entry-popup">
     <div class="pop-box">
-        <div class="support-text"> JOIN US</div>
+        <div class="support-text">🚀 JOIN US</div>
         <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" class="pop-btn" style="background:#25D366;"><i class="fab fa-whatsapp"></i> WHATSAPP</a>
         <a href="https://t.me/TheCricketLIVEOfficial" class="pop-btn" style="background:#0088cc;"><i class="fab fa-telegram"></i> TELEGRAM</a>
         <div style="margin-top:18px; cursor:pointer; font-size:11px; color:#00d2ff;" onclick="closePopup()">CONTINUE TO STREAM</div>
@@ -63,28 +63,29 @@
 </div>
 
 <div class="reaction-bar" id="reaction-bar">
-    <div class="react-btn" onclick="react('')"></div>
-    <div class="react-btn" onclick="react('6')">6</div>
-    <div class="react-btn" onclick="react('')"></div>
-    <div class="react-btn" onclick="react('4')">4</div>
-    <div class="react-btn" onclick="react('')"></div>
+    <div class="react-btn" onclick="react('🔥')">🔥</div>
+    <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
+    <div class="react-btn" onclick="react('❤️')">❤️</div>
+    <div class="react-btn" onclick="react('4️⃣')">4️⃣</div>
+    <div class="react-btn" onclick="react('🤩')">🤩</div>
 </div>
 
 <div class="share-section" id="share-box">
-    <div class="share-input-box" id="share-url-text">https://yoursite.com/?ch=channel</div>
+    <div class="share-input-box" id="share-url-text">URL Loading...</div>
     <button class="copy-btn" onclick="copyLink()">COPY</button>
     <a href="#" id="wa-share-link" class="wa-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
 </div>
 
 <div class="channel-grid" id="main-grid"></div>
 
-<div class="social-container">
+<div id="main-footer-btns">
     <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" class="join-btn-base" style="border: 1px solid #25D366; background: rgba(37, 211, 102, 0.1);"><i class="fab fa-whatsapp"></i> Join WhatsApp</a>
     <a href="https://t.me/TheCricketLIVEOfficial" class="join-btn-base" style="border: 1px solid #0088cc; background: rgba(0, 136, 204, 0.1);"><i class="fab fa-telegram"></i> Join Telegram</a>
 </div>
 
 <script>
     const channels = {
+        "ss1_hin": { name: "Star Sports 1 HD Hindi", url: "https://tvgotk.wapka.fun/index.html" },
         "hotstar": { name: "Hotstar", url: "https://tvgotk.wapka.fun/hotstar" },
         "ss2_hin": { name: "Star Sports 2 HD Hindi", url: "https://shotball.pages.dev/HIN" },
         "ss2_eng": { name: "Star Sports 2 HD", url: "https://shotball.pages.dev/ENG" },
@@ -96,41 +97,48 @@
     };
 
     function initGrid() {
-        const grid = document.getElementById('main-grid');
-        for (const key in channels) {
-            const btn = document.createElement('button');
-            btn.className = 'channel-btn';
-            btn.innerText = channels[key].name;
-            btn.onclick = () => loadMatch(key);
-            grid.appendChild(btn);
-        }
-        
-        // Check URL Parameters for Auto-play (Share Mode)
         const urlParams = new URLSearchParams(window.location.search);
         const channelKey = urlParams.get('ch');
+
+        // SHARE MODE LOGIC: Agar URL me channel key hai toh baaki sab hide karo
         if (channelKey && channels[channelKey]) {
-            loadMatch(channelKey);
+            document.getElementById('main-grid').style.display = 'none';
+            document.getElementById('main-footer-btns').style.display = 'none';
+            document.getElementById('entry-popup').style.display = 'none'; // Auto-hide popup in share mode
+            loadMatch(channelKey, true);
+        } else {
+            // Normal Mode: Saare channels dikhao
+            const grid = document.getElementById('main-grid');
+            for (const key in channels) {
+                const btn = document.createElement('button');
+                btn.className = 'channel-btn';
+                btn.innerText = channels[key].name;
+                btn.onclick = () => loadMatch(key);
+                grid.appendChild(btn);
+            }
         }
     }
 
-    function loadMatch(key) {
+    function loadMatch(key, isShareMode = false) {
         const channel = channels[key];
         const container = document.getElementById('player-container');
         container.innerHTML = `<iframe id="main-player" src="${channel.url}" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer"></iframe>`;
         
         document.getElementById('reaction-bar').style.display = 'flex';
-        document.getElementById('share-box').style.display = 'flex';
         
-        // Update Share Link
-        const shareURL = window.location.origin + window.location.pathname + "?ch=" + key;
-        document.getElementById('share-url-text').innerText = shareURL;
-        document.getElementById('wa-share-link').href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(" Watch Live Cricket: " + shareURL);
+        // Share Box sirf tab dikhao jab normal mode ho
+        if (!isShareMode) {
+            document.getElementById('share-box').style.display = 'flex';
+            const shareURL = window.location.origin + window.location.pathname + "?ch=" + key;
+            document.getElementById('share-url-text').innerText = shareURL;
+            document.getElementById('wa-share-link').href = "https://api.whatsapp.com/send?text=" + encodeURIComponent("🏏 Watch Live: " + shareURL);
+        }
     }
 
     function copyLink() {
         const text = document.getElementById('share-url-text').innerText;
         navigator.clipboard.writeText(text).then(() => {
-            alert("Link Copied!");
+            alert("Channel Link Copied!");
         });
     }
 
