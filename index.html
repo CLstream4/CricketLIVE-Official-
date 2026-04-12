@@ -41,7 +41,7 @@
 
 <div id="entry-popup">
     <div class="pop-box">
-        <div class="support-text"> JOIN US</div>
+        <div class="support-text">🚀 JOIN US</div>
         <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" class="pop-btn" style="background:#25D366;"><i class="fab fa-whatsapp"></i> WHATSAPP</a>
         <a href="https://t.me/TheCricketLIVEOfficial" class="pop-btn" style="background:#0088cc;"><i class="fab fa-telegram"></i> TELEGRAM</a>
         <div style="margin-top:18px; cursor:pointer; font-size:11px; color:#00d2ff;" onclick="closePopup()">CONTINUE TO STREAM</div>
@@ -57,26 +57,24 @@
 </div>
 
 <div class="reaction-bar" id="reaction-bar">
-    <div class="react-btn" onclick="react('')"></div>
-    <div class="react-btn" onclick="react('6')">6</div>
-    <div class="react-btn" onclick="react('')"></div>
-    <div class="react-btn" onclick="react('4')">4</div>
-    <div class="react-btn" onclick="react('')"></div>
+    <div class="react-btn" onclick="react('🔥')">🔥</div>
+    <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
+    <div class="react-btn" onclick="react('❤️')">❤️</div>
+    <div class="react-btn" onclick="react('4️⃣')">4️⃣</div>
 </div>
 
 <div class="channel-grid" id="main-grid"></div>
 
 <div class="social-container">
-    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" class="join-btn-base" style="border: 1px solid #25D366; background: rgba(37, 211, 102, 0.1);"><i class="fab fa-whatsapp"></i> Join WhatsApp</a>
-    <a href="https://t.me/TheCricketLIVEOfficial" class="join-btn-base" style="border: 1px solid #0088cc; background: rgba(0, 136, 204, 0.1);"><i class="fab fa-telegram"></i> Join Telegram</a>
+    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" class="join-btn-base" style="border: 1px solid #25D366;">Join WhatsApp</a>
+    <a href="https://t.me/TheCricketLIVEOfficial" class="join-btn-base" style="border: 1px solid #0088cc;">Join Telegram</a>
 </div>
 
 <script>
     const channels = {
         "Hotstar": "https://tvgotk.wapka.fun/hotstar",
-        "Star Sports 2 HD Hindi": "https://shotball.pages.dev/HIN",
-        "Star Sports 2 HD": "https://shotball.pages.dev/ENG",
-        "Star Sports 3": "https://shwe7ank-7.pages.dev/s1e",
+        "Star Sports 2 Hindi": "https://estrav.pages.dev/c3?id=H2",
+        "Star Sports 2 HD": "https://estrav.pages.dev/c3?id=E2",
         "Willow Cricbuzz": "https://tvgotk.wapka.fun/hotstar",
         "Willow Cricbuzz Eng": "https://toxify-tv2.pages.dev/?id=willow",
         "Sky Sports 1": "https://toxify-tv2.pages.dev/?id=sky-sports-nz",
@@ -96,8 +94,8 @@
 
     function loadMatch(url) {
         const container = document.getElementById('player-container');
-        // UPDATE: Sandbox modified to bypass "DISABLE SANDBOX" message while still blocking popups
-        container.innerHTML = `<iframe id="main-player" src="${url}" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe>`;
+        // sandbox attribute add kiya hai popups rokne ke liye
+        container.innerHTML = `<iframe id="main-player" src="${url}" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-scripts allow-same-origin allow-forms" referrerpolicy="no-referrer"></iframe>`;
         document.getElementById('reaction-bar').style.display = 'flex';
     }
 
