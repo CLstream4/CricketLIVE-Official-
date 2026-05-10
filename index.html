@@ -44,8 +44,6 @@
         .ss2-custom-crop { height: 165% !important; top: -38% !important; transform: scale(1.05); }
         .willow-normal { height: 100% !important; width: 100% !important; top: 0 !important; transform: scale(1) !important; }
         .willow-ios-zoom { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
-        .cricbuzz-zoom { height: 100% !important; width: 100% !important; top: -5px !important; transform: scale(1.08) !important; }
-        .hub-sports-zoom { height: 110% !important; width: 110% !important; top: -5% !important; left: -5% !important; transform: scale(1.05) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
         @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -64,8 +62,6 @@
         .channel-button:active { transform: scale(0.95); }
         
         .cricbuzz-btn { background: linear-gradient(45deg, #1d976c, #93f9b9) !important; color: #000 !important; }
-        .hotstar-btn { background: linear-gradient(45deg, #001524, #004e92) !important; color: #fff !important; border: 1px solid #00d2ff !important; }
-        .special-btn { background: linear-gradient(45deg, #f9a8d4, #00d2ff) !important; color: #000 !important; }
         .india-btn { background: linear-gradient(45deg, #FF9933, #ffffff, #138808) !important; color: #000 !important; border: 1px solid #fff !important; }
         .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
         .ptv-btn { background: linear-gradient(45deg, #004225, #019031) !important; color: #fff !important; border: 1px solid #ffffff !important; }
@@ -120,9 +116,8 @@
     <div class="section-title">LIVE CHANNELS</div>
     <div class="channel-grid">
         <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
-        <button class="channel-button" style="grid-column: span 1;" onclick="loadMatch('willow')">WILLOW SPORTS</button>
+        <button class="channel-button" onclick="loadMatch('willow')">WILLOW SPORTS</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
-        
         <button class="channel-button india-btn" onclick="loadMatch('ss1_hd')">Star Sports 1 HD</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss2_hd')">Star Sports 2 HD</button>
@@ -151,8 +146,6 @@
         'cricbuzz_1': 'https://allinonereborn.online/mpd/tnt1.html',
         'willow': 'https://khel-box.github.io/Wlo',
         'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
-        
-        // New Links Added
         'ss1_hd': 'https://allinonereborn.online/tplay/play.php?id=78',
         'ss1_hd_hindi': 'https://allinonereborn.online/tplay/play.php?id=24',
         'ss2_hd': 'https://allinonereborn.online/tplay/play.php?id=235',
@@ -175,14 +168,11 @@
         document.getElementById('loading-skeleton').style.display = 'block';
         
         let cropClass = 'class="fixed-controls"';
-        
-        if (slug === 'willow') {
-            cropClass = 'class="willow-normal"';
-        } else if (slug === 'willow_ios') {
-            cropClass = 'class="willow-ios-zoom"';
-        }
+        if (slug === 'willow') { cropClass = 'class="willow-normal"'; } 
+        else if (slug === 'willow_ios') { cropClass = 'class="willow-ios-zoom"'; }
 
-        let sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation allow-popups allow-popups-to-escape-sandbox"';
+        // FIX: Removed 'allow-popups' and 'allow-popups-to-escape-sandbox' to block ad redirects
+        let sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation"';
         
         container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
         
@@ -192,40 +182,11 @@
     }
 
     function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
-    
-    function showUIParts() { 
-        if (currentChannel && popupClosed) { 
-            document.getElementById('live-signal-box').style.display = 'flex'; 
-            document.getElementById('reaction-bar').style.display = 'flex'; 
-        } 
-    }
-
-    function closePopup() { 
-        document.getElementById('entry-popup').style.display = 'none'; 
-        popupClosed = true; 
-        showUIParts(); 
-    }
-    
-    function react(emoji) { 
-        const el = document.createElement('div'); 
-        el.className = 'floating-emoji'; 
-        el.innerHTML = emoji; 
-        el.style.left = (Math.random() * 60 + 20) + '%'; 
-        document.body.appendChild(el); 
-        setTimeout(() => el.remove(), 2000); 
-    }
-    
-    function copyShareMessage() { 
-        const linkText = document.getElementById('sharePreview').innerText; 
-        navigator.clipboard.writeText(linkText); 
-        document.getElementById('copyBtn').innerText = "DONE!"; 
-        setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); 
-    }
-
-    function whatsappShare() { 
-        const linkText = document.getElementById('sharePreview').innerText; 
-        window.open("https://api.whatsapp.com/send?text=Watch Live Cricket Here: " + linkText, '_blank'); 
-    }
+    function showUIParts() { if (currentChannel && popupClosed) { document.getElementById('live-signal-box').style.display = 'flex'; document.getElementById('reaction-bar').style.display = 'flex'; } }
+    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; popupClosed = true; showUIParts(); }
+    function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = (Math.random() * 60 + 20) + '%'; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
+    function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
+    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open("https://api.whatsapp.com/send?text=Watch Live Cricket Here: " + linkText, '_blank'); }
 
     window.onload = function() {
         const ch = new URLSearchParams(window.location.search).get('ch');
