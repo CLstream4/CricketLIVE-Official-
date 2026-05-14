@@ -120,6 +120,7 @@
         <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss1_hd')">Star Sports 1 HD</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
+        <button class="channel-button india-btn" onclick="loadMatch('ss1_hd_tamil')">Star Sports 1 HD Tamil</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss2_hd')">Star Sports 2 HD</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss2_sd_hindi')">Star Sports 2 SD Hindi</button>
         <button class="channel-button india-btn" onclick="loadMatch('ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
@@ -146,11 +147,12 @@
         'cricbuzz_1': 'https://allinonereborn.online/mpd/tnt1.html',
         'willow': 'https://khel-box.github.io/Wlo',
         'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
-        'ss1_hd': 'https://allinonereborn.online/tplay/play.php?id=78',
-        'ss1_hd_hindi': 'https://allinonereborn.online/tplay/play.php?id=24',
+        'ss1_hd': 'https://jtvxweb.pages.dev/pind?id=1106',
+        'ss1_hd_hindi': 'https://jtvxweb.pages.dev/pind?id=1108',
+        'ss1_hd_tamil': 'https://jtvxweb.pages.dev/pind?id=3278',
         'ss2_hd': 'https://allinonereborn.online/tplay/play.php?id=235',
         'ss2_sd_hindi': 'https://allinonereborn.online/tplay/play.php?id=980',
-        'ss2_hd_hindi': 'https://allinonereborn.online/tplay/play.php?id=1033',
+        'ss2_hd_hindi': 'https://tatticdn.pages.dev/CDN3/?ch=H2',
         'ss_select_1hd': 'https://allinonereborn.online/tplay/play.php?id=246',
         'dd_sports': 'https://allinonereborn.online/tplay/play.php?id=223',
         'sky_sports_2': 'https://allrounder-live5.pages.dev/channel/ptv',
@@ -171,7 +173,6 @@
         if (slug === 'willow') { cropClass = 'class="willow-normal"'; } 
         else if (slug === 'willow_ios') { cropClass = 'class="willow-ios-zoom"'; }
 
-        // FIX: Removed 'allow-popups' and 'allow-popups-to-escape-sandbox' to block ad redirects
         let sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation"';
         
         container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
