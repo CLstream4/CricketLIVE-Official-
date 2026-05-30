@@ -25,8 +25,7 @@
         .sidebar-tg { background: rgba(0, 136, 204, 0.8); }
 
         .header { padding: 15px 10px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); }
-        .header h1, .share-header h1 { font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #00d2ff, #f9a8d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; margin: 0; }
-        .share-header { display: none; padding: 15px 10px; }
+        .header h1 { font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #00d2ff, #f9a8d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; margin: 0; }
 
         #live-signal-box { display: none; justify-content: flex-end; width: 96%; max-width: 850px; margin: 10px auto -15px auto; }
         #live-signal { background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3); display: flex; align-items: center; }
@@ -39,11 +38,9 @@
             border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; will-change: transform;
         }
 
-        #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; z-index: 1; transform-origin: top center; }
-        .fixed-controls { height: 100% !important; top: 0 !important; transform: scale(1) !important; }
-        .ss2-custom-crop { height: 165% !important; top: -38% !important; transform: scale(1.05); }
-        .willow-normal { height: 100% !important; width: 100% !important; top: 0 !important; transform: scale(1) !important; }
-        .willow-ios-zoom { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
+        #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; top: 0; z-index: 1; transform-origin: top center; transition: all 0.2s ease; }
+        
+        .zoom-ios { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
         @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -95,7 +92,6 @@
 </div>
 
 <header class="header" id="site-header"><h1>CRICKETLIVE! OFFICIAL</h1></header>
-<div class="share-header" id="share-header"><h1>CRICKETLIVE! OFFICIAL</h1></div>
 <div id="live-signal-box"><div id="live-signal"><span class="green-dot"></span>LIVE</div></div>
 
 <div class="video-wrapper">
@@ -129,6 +125,8 @@
         <button class="channel-button ptv-btn" onclick="loadMatch('sky_sports_2')">Sky Sports 2</button>
         <button class="channel-button sony-btn" onclick="loadMatch('euro_sports_hd')">Euro Sports HD</button>
         <button class="channel-button" style="background: linear-gradient(45deg, #111, #333); border: 1px solid #ffaa00;" onclick="loadMatch('fox_501')">FOX SPORTS 501</button>
+        <button class="channel-button sony-btn" onclick="loadMatch('sony_sports_1_hd')">Sony Sports 1 HD</button>
+        <button class="channel-button sony-btn" onclick="loadMatch('sony_sports_4_hindi')">Sony Sports 4 Hindi</button>
     </div>
 </div>
 
@@ -158,7 +156,10 @@
         'dd_sports': 'https://allinonereborn.online/tplay/play.php?id=223',
         'sky_sports_2': 'https://allrounder-live5.pages.dev/channel/ptv',
         'euro_sports_hd': 'https://allinonereborn.online/tplay/play.php?id=812',
-        'fox_501': 'https://ollinone.pages.dev/fox'
+        'fox_501': 'https://ollinone.pages.dev/fox',
+        // New Sony Links Added
+        'sony_sports_1_hd': 'https://allinonereborn.online/sony/ptest.php?id=sony-ten-1-hd',
+        'sony_sports_4_hindi': 'https://allinonereborn.online/sony/ptest.php?id=sony-ten-3-hd'
     };
 
     let currentChannel = null;
@@ -171,32 +172,27 @@
         const container = document.getElementById('player-container');
         document.getElementById('loading-skeleton').style.display = 'block';
         
-        let cropClass = 'class="fixed-controls"';
-        if (slug === 'willow') { cropClass = 'class="willow-normal"'; } 
-        else if (slug === 'willow_ios') { cropClass = 'class="willow-ios-zoom"'; }
-
-        let sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation"';
+        let customClass = (slug === 'willow_ios') ? 'class="zoom-ios"' : '';
+        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation"';
         
-        container.innerHTML = `<iframe id="main-player" ${cropClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
+        container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
         
-        if(popupClosed) showUIParts();
+        if (popupClosed) showUIParts();
         document.getElementById('watermark').style.display = 'inline-block';
-        document.getElementById('sharePreview').innerText = window.location.origin + window.location.pathname + "?ch=" + slug;
+        document.getElementById('sharePreview').innerText = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
     }
 
     function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
     function showUIParts() { if (currentChannel && popupClosed) { document.getElementById('live-signal-box').style.display = 'flex'; document.getElementById('reaction-bar').style.display = 'flex'; } }
     function closePopup() { document.getElementById('entry-popup').style.display = 'none'; popupClosed = true; showUIParts(); }
-    function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = (Math.random() * 60 + 20) + '%'; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
+    function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
     function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
-    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open("https://api.whatsapp.com/send?text=Watch Live Cricket Here: " + linkText, '_blank'); }
+    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
 
     window.onload = function() {
         const ch = new URLSearchParams(window.location.search).get('ch');
         if (ch && channels[ch]) {
             loadMatch(ch);
-            document.getElementById('site-header').classList.add('hidden-mode');
-            document.getElementById('share-header').style.display = 'block';
             document.getElementById('main-grid').classList.add('hidden-mode');
         }
     };
