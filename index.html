@@ -27,10 +27,14 @@
         .header { padding: 15px 10px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); }
         .header h1 { font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #00d2ff, #f9a8d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; margin: 0; }
 
-        #live-signal-box { display: none; justify-content: flex-end; width: 96%; max-width: 850px; margin: 10px auto -15px auto; }
+        #live-signal-box { display: none; justify-content: space-between; align-items: center; width: 96%; max-width: 850px; margin: 10px auto -15px auto; }
         #live-signal { background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3); display: flex; align-items: center; }
         .green-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 4px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* REFRESH PLAYER BUTTON */
+        .refresh-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #00d2ff; font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .refresh-btn:active { transform: scale(0.95); }
 
         /* VIDEO WRAPPER */
         .video-wrapper { 
@@ -55,9 +59,12 @@
 
         .section-title { font-family: 'Bebas Neue', cursive; font-size: 24px; color: #00d2ff; margin: 20px 0 10px; letter-spacing: 1px; }
         .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px auto; max-width: 94%; }
-        .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); transition: transform 0.1s; }
+        .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); transition: transform 0.1s, border 0.2s, box-shadow 0.2s; }
         .channel-button:active { transform: scale(0.95); }
         
+        /* ACTIVE CHANNEL STATE STYLING */
+        .channel-button.active-channel { border: 2px solid #00ffff !important; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); transform: scale(1.02); }
+
         .cricbuzz-btn { background: linear-gradient(45deg, #1d976c, #93f9b9) !important; color: #000 !important; }
         .india-btn { background: linear-gradient(45deg, #FF9933, #ffffff, #138808) !important; color: #000 !important; border: 1px solid #fff !important; }
         .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
@@ -92,7 +99,11 @@
 </div>
 
 <header class="header" id="site-header"><h1>CRICKETLIVE! OFFICIAL</h1></header>
-<div id="live-signal-box"><div id="live-signal"><span class="green-dot"></span>LIVE</div></div>
+
+<div id="live-signal-box">
+    <div id="live-signal"><span class="green-dot"></span>LIVE</div>
+    <button class="refresh-btn" onclick="refreshPlayer()"><i class="fas fa-sync-alt"></i> Refresh Stream</button>
+</div>
 
 <div class="video-wrapper">
     <div id="loading-skeleton" class="skeleton"></div>
@@ -111,25 +122,29 @@
 <div id="main-grid">
     <div class="section-title">LIVE CHANNELS</div>
     <div class="channel-grid">
-        <button class="channel-button cricbuzz-btn" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
-        <button class="channel-button" onclick="loadMatch('willow')">WILLOW SPORTS</button>
-        <button class="channel-button" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss1_hd')">Star Sports 1 HD</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss1_hd_tamil')">Star Sports 1 HD Tamil</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss2_hd')">Star Sports 2 HD</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss2_sd_hindi')">Star Sports 2 SD Hindi</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
-        <button class="channel-button india-btn" onclick="loadMatch('ss_select_1hd')">Star Sports Select 1HD</button>
-        <button class="channel-button" style="background: #004e92;" onclick="loadMatch('dd_sports')">DD Sports</button>
-        <button class="channel-button ptv-btn" onclick="loadMatch('sky_sports_2')">Sky Sports 2</button>
-        <button class="channel-button sony-btn" onclick="loadMatch('euro_sports_hd')">Euro Sports HD</button>
-        <button class="channel-button" style="background: linear-gradient(45deg, #111, #333); border: 1px solid #ffaa00;" onclick="loadMatch('fox_501')">FOX SPORTS 501</button>
-        <button class="channel-button sony-btn" onclick="loadMatch('sony_sports_1_hd')">Sony Sports 1 HD</button>
-        <button class="channel-button sony-btn" onclick="loadMatch('sony_sports_4_hindi')">Sony Sports 4 Hindi</button>
-        <!-- New Channels Added Below -->
-        <button class="channel-button" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
-        <button class="channel-button" onclick="loadMatch('fancode')">FanCode</button>
+        <button class="channel-button cricbuzz-btn" data-slug="cricbuzz_1" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
+        <button class="channel-button" data-slug="willow" onclick="loadMatch('willow')">WILLOW SPORTS</button>
+        <button class="channel-button" data-slug="willow_ios" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
+        <button class="channel-button india-btn" data-slug="ss1_hd" onclick="loadMatch('ss1_hd')">Star Sports 1 HD</button>
+        <button class="channel-button india-btn" data-slug="ss1_hd_hindi" onclick="loadMatch('ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
+        <button class="channel-button india-btn" data-slug="ss1_hd_tamil" onclick="loadMatch('ss1_hd_tamil')">Star Sports 1 HD Tamil</button>
+        <button class="channel-button india-btn" data-slug="ss2_hd" onclick="loadMatch('ss2_hd')">Star Sports 2 HD</button>
+        <button class="channel-button india-btn" data-slug="ss2_sd_hindi" onclick="loadMatch('ss2_sd_hindi')">Star Sports 2 SD Hindi</button>
+        <button class="channel-button india-btn" data-slug="ss2_hd_hindi" onclick="loadMatch('ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
+        <button class="channel-button india-btn" data-slug="ss_select_1hd" onclick="loadMatch('ss_select_1hd')">Star Sports Select 1HD</button>
+        <button class="channel-button" data-slug="dd_sports" style="background: #004e92;" onclick="loadMatch('dd_sports')">DD Sports</button>
+        <button class="channel-button ptv-btn" data-slug="sky_sports_2" onclick="loadMatch('sky_sports_2')">Sky Sports 2</button>
+        <button class="channel-button sony-btn" data-slug="euro_sports_hd" onclick="loadMatch('euro_sports_hd')">Euro Sports HD</button>
+        <button class="channel-button" data-slug="fox_501" style="background: linear-gradient(45deg, #111, #333); border: 1px solid #ffaa00;" onclick="loadMatch('fox_501')">FOX SPORTS 501</button>
+        <button class="channel-button sony-btn" data-slug="sony_sports_1_hd" onclick="loadMatch('sony_sports_1_hd')">Sony Sports 1 HD</button>
+        <button class="channel-button sony-btn" data-slug="sony_sports_4_hindi" onclick="loadMatch('sony_sports_4_hindi')">Sony Sports 4 Hindi</button>
+        <button class="channel-button" data-slug="tnt_sports_2" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
+        <button class="channel-button" data-slug="fancode" onclick="loadMatch('fancode')">FanCode</button>
+        
+        <!-- NEW CHANNELS ADDED HERE -->
+        <button class="channel-button sony-btn" data-slug="sony_liv" onclick="loadMatch('sony_liv')">Sony LIV</button>
+        <button class="channel-button sony-btn" data-slug="sony_liv_hindi" onclick="loadMatch('sony_liv_hindi')">Sony LIV Hindi</button>
+        <button class="channel-button cricbuzz-btn" data-slug="willow_cricbuzz_usa" onclick="loadMatch('willow_cricbuzz_usa')">Willow Cricbuzz USA</button>
     </div>
 </div>
 
@@ -162,9 +177,13 @@
         'fox_501': 'https://ollinone.pages.dev/fox',
         'sony_sports_1_hd': 'https://allinonereborn.online/sony/ptest.php?id=sony-ten-1-hd',
         'sony_sports_4_hindi': 'https://allinonereborn.online/sony/ptest.php?id=sony-ten-3-hd',
-        // New Links Added Below
         'tnt_sports_2': 'https://ollinone.pages.dev/tnt2',
-        'fancode': 'https://ollinone.pages.dev/fc'
+        'fancode': 'https://ollinone.pages.dev/fc',
+        
+        // NEW LINKS ADDED HERE
+        'sony_liv': 'https://tvgotk.wapka.site/?id=sliv1',
+        'sony_liv_hindi': 'https://teamro.wapka.site/?id=sliv3',
+        'willow_cricbuzz_usa': 'https://tv4wapp.wapka.fun/?app=crichd&id=willowusa'
     };
 
     let currentChannel = null;
@@ -177,19 +196,40 @@
         const container = document.getElementById('player-container');
         document.getElementById('loading-skeleton').style.display = 'block';
         
+        document.querySelectorAll('.channel-button').forEach(btn => btn.classList.remove('active-channel'));
+        const targetBtn = document.querySelector(`[data-slug="${slug}"]`);
+        if (targetBtn) {
+            targetBtn.classList.add('active-channel');
+            document.title = `🔴 LIVE: ${targetBtn.innerText} | CRICKETLIVE!`;
+        }
+        
         let customClass = (slug === 'willow_ios') ? 'class="zoom-ios"' : '';
-        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation"';
+        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation allow-popups"';
         
         container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
         
+        setTimeout(() => { hideSkeleton(); }, 4000);
+
         if (popupClosed) showUIParts();
         document.getElementById('watermark').style.display = 'inline-block';
         document.getElementById('sharePreview').innerText = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
     }
 
+    function refreshPlayer() {
+        if (currentChannel) {
+            loadMatch(currentChannel);
+        }
+    }
+
     function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
     function showUIParts() { if (currentChannel && popupClosed) { document.getElementById('live-signal-box').style.display = 'flex'; document.getElementById('reaction-bar').style.display = 'flex'; } }
-    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; popupClosed = true; showUIParts(); }
+    
+    function closePopup() { 
+        document.getElementById('entry-popup').style.display = 'none'; 
+        popupClosed = true; 
+        showUIParts(); 
+    }
+    
     function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
     function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
     function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
@@ -197,8 +237,8 @@
     window.onload = function() {
         const ch = new URLSearchParams(window.location.search).get('ch');
         if (ch && channels[ch]) {
+            closePopup();
             loadMatch(ch);
-            document.getElementById('main-grid').classList.add('hidden-mode');
         }
     };
 </script>
