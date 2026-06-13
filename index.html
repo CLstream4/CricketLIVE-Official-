@@ -132,7 +132,6 @@
     <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
 </div>
 
-<!-- PREMIUM INLINE SHARE PANEL -->
 <div id="vip-share-panel" class="vip-share-panel hidden-mode">
     <div class="vip-row">
         <button class="vip-btn vip-wp-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
@@ -161,12 +160,10 @@
         <button class="channel-button" data-slug="tnt_sports_2" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
         <button class="channel-button" data-slug="fancode" onclick="loadMatch('fancode')">FanCode</button>
         
-        <!-- NEW CHANNELS ADDED HERE -->
         <button class="channel-button sony-btn" data-slug="sony_liv" onclick="loadMatch('sony_liv')">Sony LIV</button>
         <button class="channel-button sony-btn" data-slug="sony_liv_hindi" onclick="loadMatch('sony_liv_hindi')">Sony LIV Hindi</button>
         <button class="channel-button cricbuzz-btn" data-slug="willow_cricbuzz_usa" onclick="loadMatch('willow_cricbuzz_usa')">Willow Cricbuzz USA</button>
         
-        <!-- LATEST CHANNELS REQUESTED -->
         <button class="channel-button india-btn" data-slug="ss2_tamil" onclick="loadMatch('ss2_tamil')">Star Sports 2 Tamil</button>
         <button class="channel-button india-btn" data-slug="ss2_telugu" onclick="loadMatch('ss2_telugu')">Star Sports 2 Telugu</button>
         <button class="channel-button india-btn" data-slug="ss2_kannada" onclick="loadMatch('ss2_kannada')">Star Sports 2 Kannada</button>
@@ -292,7 +289,7 @@
             document.getElementById('floating-sidebar').classList.add('hidden-mode');
             document.getElementById('vip-share-panel').classList.remove('hidden-mode');
             
-            closePopup();
+            // Removed closePopup() from here so the popup is forced to show up
             loadMatch(ch);
         }
     };
