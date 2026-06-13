@@ -80,6 +80,18 @@
         .join-tg { background: rgba(0, 136, 204, 0.2); border: 1px solid #0088cc; }
 
         .hidden-mode { display: none !important; }
+
+        /* PREMIUM INSTANT SHARE MODE OVERLAYS */
+        .vip-share-panel { width: 90%; max-width: 450px; margin: 20px auto; display: flex; flex-direction: column; gap: 12px; }
+        .vip-btn { font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px; font-size: 14px; font-weight: 800; padding: 15px; border-radius: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 12px; color: white; transition: 0.3s; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .vip-wp-btn { background: linear-gradient(135deg, #128C7E, #25D366); box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
+        .vip-tg-btn { background: linear-gradient(135deg, #0088cc, #229ED9); box-shadow: 0 0 15px rgba(0, 136, 204, 0.4); }
+        .vip-btn:active { transform: scale(0.97); opacity: 0.9; }
+        
+        .vip-copy-box { background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(0, 210, 255, 0.4); padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 5px; }
+        .vip-copy-text { font-size: 11px; color: #a1a1aa; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; flex-grow: 1; font-family: monospace; }
+        .vip-copy-trigger { background: #00d2ff; color: #000; border: none; font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
+        .vip-copy-trigger:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
@@ -119,6 +131,16 @@
     <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
 </div>
 
+<!-- PREMIUM SHARE MODE BOX (HIDDEN BY DEFAULT) -->
+<div id="vip-share-panel" class="vip-share-panel hidden-mode">
+    <button class="vip-btn vip-wp-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp fa-lg"></i> Share on WhatsApp</button>
+    <button class="vip-btn vip-tg-btn" onclick="telegramShare()"><i class="fab fa-telegram-plane fa-lg"></i> Share on Telegram</button>
+    <div class="vip-copy-box">
+        <div id="vip-url-text" class="vip-copy-text">Loading stream link...</div>
+        <button id="vip-copy-btn" class="vip-copy-trigger" onclick="copyVipMessage()">Copy Link</button>
+    </div>
+</div>
+
 <div id="main-grid">
     <div class="section-title">LIVE CHANNELS</div>
     <div class="channel-grid">
@@ -136,10 +158,12 @@
         <button class="channel-button" data-slug="tnt_sports_2" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
         <button class="channel-button" data-slug="fancode" onclick="loadMatch('fancode')">FanCode</button>
         
+        <!-- NEW CHANNELS ADDED HERE -->
         <button class="channel-button sony-btn" data-slug="sony_liv" onclick="loadMatch('sony_liv')">Sony LIV</button>
         <button class="channel-button sony-btn" data-slug="sony_liv_hindi" onclick="loadMatch('sony_liv_hindi')">Sony LIV Hindi</button>
         <button class="channel-button cricbuzz-btn" data-slug="willow_cricbuzz_usa" onclick="loadMatch('willow_cricbuzz_usa')">Willow Cricbuzz USA</button>
         
+        <!-- LATEST CHANNELS REQUESTED -->
         <button class="channel-button india-btn" data-slug="ss2_tamil" onclick="loadMatch('ss2_tamil')">Star Sports 2 Tamil</button>
         <button class="channel-button india-btn" data-slug="ss2_telugu" onclick="loadMatch('ss2_telugu')">Star Sports 2 Telugu</button>
         <button class="channel-button india-btn" data-slug="ss2_kannada" onclick="loadMatch('ss2_kannada')">Star Sports 2 Kannada</button>
@@ -216,7 +240,10 @@
 
         if (popupClosed) showUIParts();
         document.getElementById('watermark').style.display = 'inline-block';
-        document.getElementById('sharePreview').innerText = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
+        
+        const finalShareUrl = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
+        document.getElementById('sharePreview').innerText = finalShareUrl;
+        document.getElementById('vip-url-text').innerText = finalShareUrl;
     }
 
     function refreshPlayer() {
@@ -236,15 +263,29 @@
     
     function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
     function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
-    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
+    
+    function copyVipMessage() { 
+        const linkText = document.getElementById('vip-url-text').innerText; 
+        navigator.clipboard.writeText(linkText); 
+        document.getElementById('vip-copy-btn').innerText = "COPIED!"; 
+        document.getElementById('vip-copy-btn').style.background = "#00ff00"; 
+        setTimeout(() => { 
+            document.getElementById('vip-copy-btn').innerText = "Copy Link"; 
+            document.getElementById('vip-copy-btn').style.background = "#00d2ff"; 
+        }, 2000); 
+    }
+
+    function whatsappShare() { const linkText = document.getElementById('vip-url-text').innerText.includes('http') ? document.getElementById('vip-url-text').innerText : document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
+    function telegramShare() { const linkText = document.getElementById('vip-url-text').innerText.includes('http') ? document.getElementById('vip-url-text').innerText : document.getElementById('sharePreview').innerText; window.open(`https://t.me/share/url?url=${encodeURIComponent(linkText)}&text=Watch Live Cricket Here!`, '_blank'); }
 
     window.onload = function() {
         const ch = new URLSearchParams(window.location.search).get('ch');
         if (ch && channels[ch]) {
-            // Activating PREMIUM SHARE MODE
+            // Activating PREMIUM VIP SHARE MODE
             document.getElementById('main-grid').classList.add('hidden-mode');
             document.getElementById('share-controls-wrapper').classList.add('hidden-mode');
             document.getElementById('floating-sidebar').classList.add('hidden-mode');
+            document.getElementById('vip-share-panel').classList.remove('hidden-mode');
             
             closePopup();
             loadMatch(ch);
