@@ -81,17 +81,18 @@
 
         .hidden-mode { display: none !important; }
 
-        /* PREMIUM INSTANT SHARE MODE OVERLAYS */
-        .vip-share-panel { width: 90%; max-width: 450px; margin: 20px auto; display: flex; flex-direction: column; gap: 12px; }
-        .vip-btn { font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px; font-size: 14px; font-weight: 800; padding: 15px; border-radius: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 12px; color: white; transition: 0.3s; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .vip-wp-btn { background: linear-gradient(135deg, #128C7E, #25D366); box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
-        .vip-tg-btn { background: linear-gradient(135deg, #0088cc, #229ED9); box-shadow: 0 0 15px rgba(0, 136, 204, 0.4); }
-        .vip-btn:active { transform: scale(0.97); opacity: 0.9; }
+        /* PREMIUM INLINE SHARE PANEL */
+        .vip-share-panel { width: 94%; max-width: 500px; margin: 20px auto; display: flex; flex-direction: column; gap: 10px; }
+        .vip-row { display: flex; gap: 8px; width: 100%; justify-content: center; }
+        .vip-btn { flex: 1; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-size: 12px; font-weight: 700; padding: 12px; border-radius: 10px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; color: white; transition: 0.2s; cursor: pointer; border: none; }
+        .vip-wp-btn { background: linear-gradient(135deg, #128C7E, #25D366); box-shadow: 0 0 10px rgba(37, 211, 102, 0.3); }
+        .vip-tg-btn { background: linear-gradient(135deg, #0088cc, #229ED9); box-shadow: 0 0 10px rgba(0, 136, 204, 0.3); }
+        .vip-btn:active { transform: scale(0.96); opacity: 0.9; }
         
-        .vip-copy-box { background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(0, 210, 255, 0.4); padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 5px; }
+        .vip-copy-box { background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(0, 210, 255, 0.3); padding: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; box-sizing: border-box; }
         .vip-copy-text { font-size: 11px; color: #a1a1aa; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; flex-grow: 1; font-family: monospace; }
-        .vip-copy-trigger { background: #00d2ff; color: #000; border: none; font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
-        .vip-copy-trigger:active { transform: scale(0.9); }
+        .vip-copy-trigger { background: #00d2ff; color: #000; border: none; font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 6px; cursor: pointer; text-transform: uppercase; transition: 0.2s; white-space: nowrap; }
+        .vip-copy-trigger:active { transform: scale(0.93); }
     </style>
 </head>
 <body>
@@ -131,10 +132,12 @@
     <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
 </div>
 
-<!-- PREMIUM SHARE MODE BOX (HIDDEN BY DEFAULT) -->
+<!-- PREMIUM INLINE SHARE PANEL -->
 <div id="vip-share-panel" class="vip-share-panel hidden-mode">
-    <button class="vip-btn vip-wp-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp fa-lg"></i> Share on WhatsApp</button>
-    <button class="vip-btn vip-tg-btn" onclick="telegramShare()"><i class="fab fa-telegram-plane fa-lg"></i> Share on Telegram</button>
+    <div class="vip-row">
+        <button class="vip-btn vip-wp-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        <button class="vip-btn vip-tg-btn" onclick="telegramShare()"><i class="fab fa-telegram-plane"></i> Telegram</button>
+    </div>
     <div class="vip-copy-box">
         <div id="vip-url-text" class="vip-copy-text">Loading stream link...</div>
         <button id="vip-copy-btn" class="vip-copy-trigger" onclick="copyVipMessage()">Copy Link</button>
@@ -232,7 +235,9 @@
         }
         
         let customClass = (slug === 'willow_ios') ? 'class="zoom-ios"' : '';
-        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation allow-popups"';
+        
+        // STRICT AD-BLOCKING SANDBOX (Removed allow-popups, allow-top-navigation, allow-forms)
+        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-presentation"';
         
         container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
         
