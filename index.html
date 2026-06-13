@@ -36,7 +36,7 @@
         
         .video-wrapper { width: 96%; max-width: 850px; margin: 20px auto; background: #000; border: 1px solid rgba(0, 210, 255, 0.5); border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; }
         #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; top: 0; z-index: 1; }
-        .zoom-ios { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
+        .zoom-ios { height: 100% !important; width: 100% !important; top: 0px !important; transform: scale(1.0) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
         @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -46,6 +46,9 @@
         .reaction-bar { display: none; justify-content: center; gap: 12px; margin: 15px auto; }
         .react-btn { font-size: 20px; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); color: white; }
         
+        .floating-emoji { position: fixed; bottom: 100px; left: 50%; pointer-events: none; font-size: 35px; z-index: 10000; animation: popBounce 2s ease-out forwards; }
+        @keyframes popBounce { 0% { transform: translateY(0) scale(0); opacity: 0; } 15% { transform: translateY(-30px) scale(1.5); opacity: 1; } 100% { transform: translateY(-400px) translateX(50px); opacity: 0; } }
+
         .section-title { font-family: 'Bebas Neue', cursive; font-size: 24px; color: #00d2ff; margin: 20px 0 10px; letter-spacing: 1px; }
         .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px auto; max-width: 94%; }
         .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); }
@@ -56,8 +59,7 @@
         .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
 
         /* SHARE MODE PREMIUM UI */
-        #share-mode-ui { display: none; flex-direction: column; gap: 15px; align-items: center; margin-top: 20px; }
-        .share-header { font-family: 'Bebas Neue', cursive; font-size: 24px; color: #00d2ff; }
+        #share-mode-ui { display: none; flex-direction: column; gap: 15px; align-items: center; margin-top: 10px; }
         .premium-share-btns { display: flex; gap: 15px; }
         .prem-btn { padding: 15px 25px; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 10px; color: white; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); transition: 0.3s; }
         .prem-wp { border-color: #25D366; }
@@ -94,14 +96,20 @@
 </div>
 
 <div id="share-mode-ui">
-    <div class="share-header">MORE LINKS</div>
+    <div class="reaction-bar" id="share-reaction-bar" style="display: flex;">
+        <div class="react-btn" onclick="react('&#128293;')">&#128293;</div>
+        <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
+        <div class="react-btn" onclick="react('&#129321;')">&#129321;</div>
+        <div class="react-btn" onclick="react('4️⃣')">4️⃣</div>
+        <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
+    </div>
     <div class="premium-share-btns">
         <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="prem-btn prem-wp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="prem-btn prem-tg"><i class="fab fa-telegram"></i> Telegram</a>
     </div>
 </div>
 
-<div class="reaction-bar" id="reaction-bar">
+<div class="reaction-bar" id="main-reaction-bar">
     <div class="react-btn" onclick="react('&#128293;')">&#128293;</div>
     <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
     <div class="react-btn" onclick="react('&#129321;')">&#129321;</div>
@@ -162,7 +170,6 @@
     };
 
     let currentChannel = null;
-    let popupClosed = false;
 
     function loadMatch(slug) {
         if (!channels[slug]) return;
@@ -170,8 +177,8 @@
         const container = document.getElementById('player-container');
         document.getElementById('loading-skeleton').style.display = 'block';
         
-        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation allow-popups"';
         let customClass = (slug === 'willow_ios') ? 'class="zoom-ios"' : '';
+        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation allow-popups"';
         
         container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
         setTimeout(() => { hideSkeleton(); }, 4000);
@@ -179,26 +186,19 @@
     }
 
     function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
-    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; popupClosed = true; showUIParts(); }
+    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; document.getElementById('main-reaction-bar').style.display = 'flex'; document.getElementById('live-signal-box').style.display = 'flex'; }
     
-    function showUIParts() {
-        if (popupClosed) {
-            document.getElementById('live-signal-box').style.display = 'flex';
-            document.getElementById('reaction-bar').style.display = 'flex';
-        }
-    }
+    function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
+    function refreshPlayer() { if (currentChannel) loadMatch(currentChannel); }
 
     window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const ch = urlParams.get('ch');
-        
+        const ch = new URLSearchParams(window.location.search).get('ch');
         if (ch && channels[ch]) {
             document.getElementById('entry-popup').style.display = 'none';
-            popupClosed = true;
             document.getElementById('main-grid').style.display = 'none';
             document.getElementById('share-mode-ui').style.display = 'flex';
+            document.getElementById('live-signal-box').style.display = 'flex';
             loadMatch(ch);
-            showUIParts();
         }
     };
 </script>
