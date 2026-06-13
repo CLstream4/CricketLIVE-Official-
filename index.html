@@ -32,16 +32,24 @@
         .green-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 4px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
+        /* REFRESH PLAYER BUTTON */
         .refresh-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #00d2ff; font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .refresh-btn:active { transform: scale(0.95); }
+
+        /* VIDEO WRAPPER */
+        .video-wrapper { 
+            width: 96%; max-width: 850px; margin: 20px auto; background: #000; border: 1px solid rgba(0, 210, 255, 0.5); 
+            border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; will-change: transform;
+        }
+
+        #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; top: 0; z-index: 1; transform-origin: top center; transition: all 0.2s ease; }
         
-        .video-wrapper { width: 96%; max-width: 850px; margin: 20px auto; background: #000; border: 1px solid rgba(0, 210, 255, 0.5); border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; }
-        #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; top: 0; z-index: 1; }
-        .zoom-ios { height: 100% !important; width: 100% !important; top: 0px !important; transform: scale(1.0) !important; }
+        .zoom-ios { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
 
         .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
         @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        #watermark { position: absolute; top: 8px; left: 8px; z-index: 10; font-family: 'Orbitron', sans-serif; font-size: 8px; color: #ffffff; background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 4px; display: none; pointer-events: none; }
+        #watermark { position: absolute; top: 8px; left: 8px; z-index: 10; font-family: 'Orbitron', sans-serif; font-size: 8px; color: #ffffff; background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase; pointer-events: none; }
 
         .reaction-bar { display: none; justify-content: center; gap: 12px; margin: 15px auto; }
         .react-btn { font-size: 20px; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); color: white; }
@@ -51,19 +59,27 @@
 
         .section-title { font-family: 'Bebas Neue', cursive; font-size: 24px; color: #00d2ff; margin: 20px 0 10px; letter-spacing: 1px; }
         .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px auto; max-width: 94%; }
-        .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); }
-        .channel-button.active-channel { border: 2px solid #00ffff !important; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); }
+        .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); transition: transform 0.1s, border 0.2s, box-shadow 0.2s; }
+        .channel-button:active { transform: scale(0.95); }
+        
+        /* ACTIVE CHANNEL STATE STYLING */
+        .channel-button.active-channel { border: 2px solid #00ffff !important; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); transform: scale(1.02); }
 
         .cricbuzz-btn { background: linear-gradient(45deg, #1d976c, #93f9b9) !important; color: #000 !important; }
         .india-btn { background: linear-gradient(45deg, #FF9933, #ffffff, #138808) !important; color: #000 !important; border: 1px solid #fff !important; }
         .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
+        .ptv-btn { background: linear-gradient(45deg, #004225, #019031) !important; color: #fff !important; border: 1px solid #ffffff !important; }
 
-        /* SHARE MODE PREMIUM UI */
-        #share-mode-ui { display: none; flex-direction: column; gap: 15px; align-items: center; margin-top: 10px; }
-        .premium-share-btns { display: flex; gap: 15px; }
-        .prem-btn { padding: 15px 25px; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 10px; color: white; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); transition: 0.3s; }
-        .prem-wp { border-color: #25D366; }
-        .prem-tg { border-color: #0088cc; }
+        #sharePreview { font-size: 10px; color: #00d2ff; background: rgba(17, 24, 39, 0.8); padding: 10px; border-radius: 4px; flex-grow: 1; border: 1px solid rgba(51, 65, 85, 0.5); text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .copy-btn { background: linear-gradient(90deg, #00d2ff, #0072ff); color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .wp-share-btn { background: #25D366; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 5px; }
+        
+        .social-container { display: flex; flex-direction: column; gap: 10px; align-items: center; margin: 15px auto; width: 90%; max-width: 420px; }
+        .join-btn-base { width: 100%; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; color: white; }
+        .join-wp { background: rgba(37, 211, 102, 0.2); border: 1px solid #25D366; }
+        .join-tg { background: rgba(0, 136, 204, 0.2); border: 1px solid #0088cc; }
+
+        .hidden-mode { display: none !important; }
     </style>
 </head>
 <body>
@@ -77,7 +93,7 @@
     </div>
 </div>
 
-<div class="floating-sidebar" id="main-sidebar">
+<div class="floating-sidebar" id="floating-sidebar">
     <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="sidebar-icon sidebar-wp"><i class="fab fa-whatsapp"></i></a>
     <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="sidebar-icon sidebar-tg"><i class="fab fa-telegram"></i></a>
 </div>
@@ -86,7 +102,7 @@
 
 <div id="live-signal-box">
     <div id="live-signal"><span class="green-dot"></span>LIVE</div>
-    <button class="refresh-btn" onclick="refreshPlayer()"><i class="fas fa-sync-alt"></i> Refresh</button>
+    <button class="refresh-btn" onclick="refreshPlayer()"><i class="fas fa-sync-alt"></i> Refresh Stream</button>
 </div>
 
 <div class="video-wrapper">
@@ -95,21 +111,7 @@
     <div id="player-container"><div style="color: #64748b; padding-top: 20%; font-size: 13px;">Channel Select Karein...</div></div>
 </div>
 
-<div id="share-mode-ui">
-    <div class="reaction-bar" id="share-reaction-bar" style="display: flex;">
-        <div class="react-btn" onclick="react('&#128293;')">&#128293;</div>
-        <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
-        <div class="react-btn" onclick="react('&#129321;')">&#129321;</div>
-        <div class="react-btn" onclick="react('4️⃣')">4️⃣</div>
-        <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
-    </div>
-    <div class="premium-share-btns">
-        <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="prem-btn prem-wp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="prem-btn prem-tg"><i class="fab fa-telegram"></i> Telegram</a>
-    </div>
-</div>
-
-<div class="reaction-bar" id="main-reaction-bar">
+<div class="reaction-bar" id="reaction-bar">
     <div class="react-btn" onclick="react('&#128293;')">&#128293;</div>
     <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
     <div class="react-btn" onclick="react('&#129321;')">&#129321;</div>
@@ -133,15 +135,29 @@
         <button class="channel-button sony-btn" data-slug="sony_sports_4_hindi" onclick="loadMatch('sony_sports_4_hindi')">Sony Sports 4 Hindi</button>
         <button class="channel-button" data-slug="tnt_sports_2" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
         <button class="channel-button" data-slug="fancode" onclick="loadMatch('fancode')">FanCode</button>
-        <button class="channel-button india-btn" data-slug="ss2_tamil" onclick="loadMatch('ss2_tamil')">Star Sports 2 Tamil</button>
-        <button class="channel-button india-btn" data-slug="ss2_telugu" onclick="loadMatch('ss2_telugu')">Star Sports 2 Telugu</button>
-        <button class="channel-button india-btn" data-slug="ss2_kannada" onclick="loadMatch('ss2_kannada')">Star Sports 2 Kannada</button>
-        <button class="channel-button" data-slug="zee_cinema_hd" style="background: #8b0000;" onclick="loadMatch('zee_cinema_hd')">Zee Cinema HD</button>
-        <button class="channel-button" data-slug="wc_tv" style="background: #555;" onclick="loadMatch('wc_tv')">WC TV</button>
+        
         <button class="channel-button sony-btn" data-slug="sony_liv" onclick="loadMatch('sony_liv')">Sony LIV</button>
         <button class="channel-button sony-btn" data-slug="sony_liv_hindi" onclick="loadMatch('sony_liv_hindi')">Sony LIV Hindi</button>
         <button class="channel-button cricbuzz-btn" data-slug="willow_cricbuzz_usa" onclick="loadMatch('willow_cricbuzz_usa')">Willow Cricbuzz USA</button>
+        
+        <button class="channel-button india-btn" data-slug="ss2_tamil" onclick="loadMatch('ss2_tamil')">Star Sports 2 Tamil</button>
+        <button class="channel-button india-btn" data-slug="ss2_telugu" onclick="loadMatch('ss2_telugu')">Star Sports 2 Telugu</button>
+        <button class="channel-button india-btn" data-slug="ss2_kannada" onclick="loadMatch('ss2_kannada')">Star Sports 2 Kannada</button>
+        <button class="channel-button" data-slug="zee_cinema_hd" style="background: linear-gradient(45deg, #e11d48, #be123c);" onclick="loadMatch('zee_cinema_hd')">Zee Cinema HD</button>
+        <button class="channel-button" data-slug="wc_tv" style="background: linear-gradient(45deg, #1e3a8a, #3b82f6);" onclick="loadMatch('wc_tv')">WC TV</button>
+        <button class="channel-button" data-slug="ad_sports" style="background: linear-gradient(45deg, #b45309, #d97706);" onclick="loadMatch('ad_sports')">AD Sports</button>
     </div>
+</div>
+
+<div id="share-controls-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px auto; width: 94%;">
+    <div id="sharePreview">Select a channel...</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyShareMessage()">COPY</button>
+    <button class="wp-share-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp"></i></button>
+</div>
+
+<div class="social-container" id="social-container">
+    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="join-btn-base join-wp"><i class="fab fa-whatsapp"></i> Join WhatsApp Channel</a>
+    <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="join-btn-base join-tg"><i class="fab fa-telegram"></i> Join Telegram Channel</a>
 </div>
 
 <script>
@@ -152,52 +168,85 @@
         'ss1_hd_hindi': 'https://jtvxweb.pages.dev/pind?id=1108',
         'ss1_hd_tamil': 'https://jtvxweb.pages.dev/pind?id=3278',
         'ss2_hd': 'https://tvgotk.wapka.site/?id=ss2',
-        'ss2_sd_hindi': 'https://allinonereborn.online/tplay/play.php?id=980',
-        'ss2_hd_hindi': 'https://tvgotk.wapka.site/',
+        'ss2_sd_hindi': 'https://tvgotk.wapka.site/',
+        'ss2_hd_hindi': 'https://tatticdn.pages.dev/CDN3/?ch=H2',
         'dd_sports': 'https://jtvxweb.pages.dev/pind?id=204',
         'sony_sports_1_hd': 'https://allinonereborn.online/sony/ptest.php?id=sony-ten-1-hd',
         'sony_sports_4_hindi': 'https://allinonereborn.online/sony/ptest.php?id=sony-ten-3-hd',
         'tnt_sports_2': 'https://ollinone.pages.dev/tnt2',
         'fancode': 'https://ollinone.pages.dev/fc',
+        
+        // NEW LINKS ADDED HERE
+        'sony_liv': 'https://tvgotk.wapka.site/?id=sliv1',
+        'sony_liv_hindi': 'https://teamro.wapka.site/?id=sliv3',
+        'willow_cricbuzz_usa': 'https://tv4wapp.wapka.fun/?app=crichd&id=willowusa',
+        
+        // LATEST LINKS ADDED HERE
         'ss2_tamil': 'https://tvgotk.wapka.site/?id=ss2ta',
         'ss2_telugu': 'https://tvgotk.wapka.site/?id=ss2te',
         'ss2_kannada': 'https://tvgotk.wapka.site/?id=ss2kn',
         'zee_cinema_hd': 'https://jtvxweb.pages.dev/pind?id=484',
         'wc_tv': 'https://khel-box.github.io/Eng',
-        'sony_liv': 'https://tvgotk.wapka.site/?id=sliv1',
-        'sony_liv_hindi': 'https://teamro.wapka.site/?id=sliv3',
-        'willow_cricbuzz_usa': 'https://tv4wapp.wapka.fun/?app=crichd&id=willowusa'
+        'ad_sports': 'https://tv4wapp.wapka.fun/?app=cricketm3u8&id=1001'
     };
 
     let currentChannel = null;
+    let popupClosed = false;
 
     function loadMatch(slug) {
         if (!channels[slug]) return;
+        
         currentChannel = slug;
         const container = document.getElementById('player-container');
         document.getElementById('loading-skeleton').style.display = 'block';
+        
+        document.querySelectorAll('.channel-button').forEach(btn => btn.classList.remove('active-channel'));
+        const targetBtn = document.querySelector(`[data-slug="${slug}"]`);
+        if (targetBtn) {
+            targetBtn.classList.add('active-channel');
+            document.title = `🔴 LIVE: ${targetBtn.innerText} | CRICKETLIVE!`;
+        }
         
         let customClass = (slug === 'willow_ios') ? 'class="zoom-ios"' : '';
         const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-top-navigation allow-popups"';
         
         container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
+        
         setTimeout(() => { hideSkeleton(); }, 4000);
+
+        if (popupClosed) showUIParts();
         document.getElementById('watermark').style.display = 'inline-block';
+        document.getElementById('sharePreview').innerText = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
+    }
+
+    function refreshPlayer() {
+        if (currentChannel) {
+            loadMatch(currentChannel);
+        }
     }
 
     function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
-    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; document.getElementById('main-reaction-bar').style.display = 'flex'; document.getElementById('live-signal-box').style.display = 'flex'; }
+    function showUIParts() { if (currentChannel && popupClosed) { document.getElementById('live-signal-box').style.display = 'flex'; document.getElementById('reaction-bar').style.display = 'flex'; } }
+    
+    function closePopup() { 
+        document.getElementById('entry-popup').style.display = 'none'; 
+        popupClosed = true; 
+        showUIParts(); 
+    }
     
     function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
-    function refreshPlayer() { if (currentChannel) loadMatch(currentChannel); }
+    function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
+    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
 
     window.onload = function() {
         const ch = new URLSearchParams(window.location.search).get('ch');
         if (ch && channels[ch]) {
-            document.getElementById('entry-popup').style.display = 'none';
-            document.getElementById('main-grid').style.display = 'none';
-            document.getElementById('share-mode-ui').style.display = 'flex';
-            document.getElementById('live-signal-box').style.display = 'flex';
+            // Activating PREMIUM SHARE MODE
+            document.getElementById('main-grid').classList.add('hidden-mode');
+            document.getElementById('share-controls-wrapper').classList.add('hidden-mode');
+            document.getElementById('floating-sidebar').classList.add('hidden-mode');
+            
+            closePopup();
             loadMatch(ch);
         }
     };
