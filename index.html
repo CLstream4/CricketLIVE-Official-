@@ -37,7 +37,7 @@
         .btn-copy { width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: #38bdf8; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
         .btn-copy:hover { background: #334155; }
 
-        /* Grid Channels Panel View (MODIFIED: Added scroll functionality) */
+        /* Grid Channels Panel View */
         .channel-list { width: 100%; max-width: 950px; margin: 0 auto; padding: 8px 12px 25px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 40vh; overflow-y: auto; }
         .channel-list::-webkit-scrollbar { width: 6px; }
         .channel-list::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
@@ -79,12 +79,12 @@
             margin: 5px auto 20px auto; 
         }
 
-        /* NEW: WhatsApp Share Button for Share Mode */
-        .share-mode-wa-btn { display: none; width: 100%; max-width: 950px; margin: 0 auto; padding: 0 12px 20px 12px; }
+        /* MODIFIED: Premium & Compact WhatsApp Share Button for Share Mode */
+        .share-mode-wa-btn { display: none; width: 100%; max-width: 950px; margin: 0 auto; padding: 0 12px 25px 12px; text-align: center; }
         body.share-mode .share-mode-wa-btn { display: block; }
-        .btn-wa-share-large { width: 100%; padding: 14px; background: #25d366; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); transition: 0.2s; }
-        .btn-wa-share-large:hover { background: #20b858; }
-        .btn-wa-share-large svg { width: 22px; height: 22px; fill: white; }
+        .btn-wa-share-large { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; min-width: 240px; padding: 10px 24px; background: linear-gradient(135deg, #25d366, #1ebd56); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25); transition: all 0.3s ease; }
+        .btn-wa-share-large:hover { background: linear-gradient(135deg, #20ba5a, #1a9e49); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35); }
+        .btn-wa-share-large svg { width: 18px; height: 18px; fill: white; }
     </style>
 </head>
 <body>
@@ -137,7 +137,8 @@
             <button class="channel-btn" onclick="loadCh('https://tvgotk.wapka.site/', 'ss1_sd_h', this)">SS 1 SD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1108', 'ss1_hd_h', this)">SS 1 HD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://tvgotk.wapka.site/?id=ss2', 'ss2_sd', this)">SS 2 SD</button>
-            <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1109', 'ss2_hd', this)">SS 2 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1109', 'ss2_hd', this)">Star Sports 2 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1984', 'ss2_hd_h_new', this)">Star Sports 2 HD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://tvgotk.wapka.site/', 'ss2_sd_h', this)">SS 2 SD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://tvgotk.wapka.site/home', 'ss2_hd_h', this)">SS 2 HD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=3278', 'ss1_hd_t', this)">SS 1 HD Tamil</button>
@@ -177,6 +178,7 @@
             'ss1_hd_h': 'https://jtvxweb.pages.dev/pind?id=1108',
             'ss2_sd': 'https://tvgotk.wapka.site/?id=ss2',
             'ss2_hd': 'https://jtvxweb.pages.dev/pind?id=1109',
+            'ss2_hd_h_new': 'https://jtvxweb.pages.dev/pind?id=1984',
             'ss2_sd_h': 'https://tvgotk.wapka.site/',
             'ss2_hd_h': 'https://tvgotk.wapka.site/home',
             'ss1_hd_t': 'https://jtvxweb.pages.dev/pind?id=3278',
@@ -226,18 +228,16 @@
             });
         }
 
-        // NEW: Share direct to WhatsApp Function
         function shareToWhatsAppDirect() {
             const cleanShareUrl = window.location.origin + window.location.pathname + '?share=' + activeId;
             const shareText = "Watch Live Cricket Match Stream Here: " + cleanShareUrl;
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText), "_blank");
         }
 
-        // NEW: Fullscreen Auto-Rotate to Landscape logic
         const lockOrientation = () => {
             if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
                 if (screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock("landscape").catch(err => console.log("Orientation lock not supported or failed"));
+                    screen.orientation.lock("landscape").catch(err => console.log("Orientation lock failed"));
                 }
             } else {
                 if (screen.orientation && screen.orientation.unlock) {
