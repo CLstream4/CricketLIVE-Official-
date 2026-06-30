@@ -9,35 +9,28 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: #080c14; color: #fff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Top Header Frame */
         .top-header { padding: 14px; text-align: center; background: #0f172a; border-bottom: 2px solid #1e293b; z-index: 100; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
         .brand-name { font-size: 1.6rem; font-weight: 400; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
 
-        /* Main Scrollable Container */
         .main-container { flex: 1; display: flex; flex-direction: column; overflow-y: auto; width: 100%; }
 
-        /* Video Section Framework */
         .player-section { width: 100%; max-width: 950px; margin: 0 auto; padding: 12px; transition: all 0.3s ease; }
         .video-container { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; border: 3px solid #1e293b; box-shadow: 0 15px 35px rgba(0,0,0,0.7); position: relative; }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* Premium Brand Banner Box (Glitch Free Layout) */
         .premium-banner-box { width: 100%; max-width: 950px; margin: 0 auto; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #0f172a; border-radius: 10px; border: 1px solid #1e293b; box-sizing: border-box; }
         .banner-left { display: flex; flex-direction: column; min-width: 0; flex: 1; }
         .banner-brand { font-size: 1.05rem; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .banner-sub { font-size: 0.65rem; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        /* Single Line Premium WhatsApp Action Button */
         .btn-whatsapp-banner { background: #0284c7; color: white; text-decoration: none; padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); white-space: nowrap; flex-shrink: 0; transition: 0.2s; }
         .btn-whatsapp-banner svg { width: 16px; height: 16px; fill: #fff; }
         .btn-whatsapp-banner:hover { background: #0ea5e9; }
 
-        /* Copy Link Layout Block */
         .controls { width: 100%; max-width: 950px; margin: 0 auto; padding: 8px 12px; }
         .btn-copy { width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: #38bdf8; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
         .btn-copy:hover { background: #334155; }
 
-        /* Grid Channels Panel View */
         .channel-list { width: 100%; max-width: 950px; margin: 0 auto; padding: 8px 12px 25px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 40vh; overflow-y: auto; }
         .channel-list::-webkit-scrollbar { width: 6px; }
         .channel-list::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
@@ -46,7 +39,6 @@
         .channel-btn { padding: 14px; background: #1e293b; border: 1px solid transparent; color: #fff; border-radius: 8px; cursor: pointer; font-size: 0.95rem; text-align: center; font-weight: 600; transition: 0.2s; }
         .channel-btn.active { background: #0284c7; border-color: #0ea5e9; box-shadow: 0 0 12px rgba(2, 132, 199, 0.4); }
 
-        /* Entry Guard Gateway Popup Styles */
         .popup-overlay { position: fixed; inset: 0; background: rgba(4, 6, 10, 0.9); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 99999; visibility: hidden; opacity: 0; transition: 0.3s; }
         .popup-overlay.show { visibility: visible; opacity: 1; }
         .popup-box { background: #111726; padding: 30px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
@@ -60,26 +52,12 @@
         .btn-join { background: #25d366; }
         .btn-stream { background: #0284c7; }
 
-        /*  CLEAN SHARE MODE FILTER ENGINE */
         body.share-mode .channel-list, 
-        body.share-mode .controls { 
-            display: none !important; 
-        }
-        body.share-mode .player-section { 
-            max-width: 1000px; 
-            height: 68vh !important; 
-            padding: 15px 12px; 
-        }
-        body.share-mode .video-container { 
-            height: 100% !important; 
-            aspect-ratio: auto !important; 
-        }
-        body.share-mode .premium-banner-box { 
-            max-width: 950px; 
-            margin: 5px auto 20px auto; 
-        }
+        body.share-mode .controls { display: none !important; }
+        body.share-mode .player-section { max-width: 1000px; height: 68vh !important; padding: 15px 12px; }
+        body.share-mode .video-container { height: 100% !important; aspect-ratio: auto !important; }
+        body.share-mode .premium-banner-box { max-width: 950px; margin: 5px auto 20px auto; }
 
-        /* MODIFIED: Premium & Compact WhatsApp Share Button for Share Mode */
         .share-mode-wa-btn { display: none; width: 100%; max-width: 950px; margin: 0 auto; padding: 0 12px 25px 12px; text-align: center; }
         body.share-mode .share-mode-wa-btn { display: block; }
         .btn-wa-share-large { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; min-width: 240px; padding: 10px 24px; background: linear-gradient(135deg, #25d366, #1ebd56); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25); transition: all 0.3s ease; }
@@ -92,18 +70,9 @@
     <div class="top-header"><h1 class="brand-name">CricketLIVE! Official</h1></div>
 
     <div class="main-container">
-        
         <div class="player-section">
             <div class="video-container">
-                <iframe 
-                    id="player" 
-                    src="https://tvgotk.wapka.site/?id=ss1" 
-                    allow="autoplay; encrypted-media; fullscreen" 
-                    sandbox="allow-scripts allow-same-origin allow-forms"
-                    allowfullscreen="true"
-                    webkitallowfullscreen="true"
-                    mozallowfullscreen="true">
-                </iframe>
+                <iframe id="player" src="https://cineiccwc.pages.dev/hindi/" allow="autoplay; encrypted-media; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
             </div>
         </div>
 
@@ -113,15 +82,13 @@
                 <span class="banner-sub">Free Streams • Live Scores • Updates</span>
             </div>
             <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="btn-whatsapp-banner">
-                <svg viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 11.944.01c3.172.001 6.155 1.233 8.391 3.474 2.236 2.24 3.466 5.227 3.464 8.397-.004 6.548-5.34 11.887-11.885 11.887-2.008-.002-3.98-.51-5.732-1.472L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.09-2.885-6.951C16.452 1.961 13.991.937 11.439.937c-5.438 0-9.863 4.414-9.866 9.831-.001 1.673.456 3.305 1.32 4.743L1.873 21.6l6.302-1.647zM17.13 14.15c-.31-.156-1.833-.905-2.115-1.008-.282-.103-.489-.156-.69.156-.202.312-.781 1.008-.957 1.213-.177.206-.353.23-.663.075-.312-.156-1.316-.486-2.507-1.548-.927-.827-1.553-1.849-1.735-2.16-.182-.312-.02-.48.136-.635.141-.14.312-.363.468-.546.156-.182.208-.312.312-.52.104-.207.052-.39-.026-.546-.078-.156-.69-1.662-.946-2.277-.25-.6-.525-.518-.72-.528l-.615-.01c-.213 0-.56.08-.854.4-.294.32-1.123 1.101-1.123 2.686 0 1.585 1.153 3.118 1.313 3.326.16.207 2.27 3.466 5.497 4.864.768.332 1.367.53 1.834.679.773.245 1.477.21 2.035.127.62-.093 1.833-.75 2.09-1.473.256-.723.256-1.343.18-1.473-.076-.13-.283-.207-.593-.364z"/>
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 11.944.01c3.172.001 6.155 1.233 8.391 3.474 2.236 2.24 3.466 5.227 3.464 8.397-.004 6.548-5.34 11.887-11.885 11.887-2.008-.002-3.98-.51-5.732-1.472L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.09-2.885-6.951C16.452 1.961 13.991.937 11.439.937c-5.438 0-9.863 4.414-9.866 9.831-.001 1.673.456 3.305 1.32 4.743L1.873 21.6l6.302-1.647zM17.13 14.15c-.31-.156-1.833-.905-2.115-1.008-.282-.103-.489-.156-.69.156-.202.312-.781 1.008-.957 1.213-.177.206-.353.23-.663.075-.312-.156-1.316-.486-2.507-1.548-.927-.827-1.553-1.849-1.735-2.16-.182-.312-.02-.48.136-.635.141-.14.312-.363.468-.546.156-.182.208-.312.312-.52.104-.207.052-.39-.026-.546-.078-.156-.69-1.662-.946-2.277-.25-.6-.525-.518-.72-.528l-.615-.01c-.213 0-.56.08-.854.4-.294.32-1.123 1.101-1.123 2.686 0 1.585 1.153 3.118 1.313 3.326.16.207 2.27 3.466 5.497 4.864.768.332 1.367.53 1.834.679.773.245 1.477.21 2.035.127.62-.093 1.833-.75 2.09-1.473.256-.723.256-1.343.18-1.473-.076-.13-.283-.207-.593-.364z"/></svg>
                 Join WhatsApp
             </a>
         </div>
 
         <div class="controls">
-            <button class="btn-copy" onclick="copyLink()"> Copy Active Channel Share Link</button>
+            <button class="btn-copy" onclick="copyLink()">Copy Active Channel Share Link</button>
         </div>
 
         <div class="share-mode-wa-btn">
@@ -132,10 +99,10 @@
         </div>
 
         <div class="channel-list">
-            <button class="channel-btn active" onclick="loadCh('https://tvgotk.wapka.site/?id=ss1', 'ss1_sd', this)">SS 1 SD</button>
-            <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1106', 'ss1_hd', this)">SS 1 HD</button>
+            <button class="channel-btn active" onclick="loadCh('https://cineiccwc.pages.dev/hindi/', 'ss1_sd', this)">SS 1 SD</button>
+            <button class="channel-btn" onclick="loadCh('https://teamro.wapka.site/?id=ss1hd', 'ss1_hd', this)">SS 1 HD</button>
             <button class="channel-btn" onclick="loadCh('https://tv4wab.pages.dev/?id=362', 'ss1_sd_h', this)">SS 1 SD Hindi</button>
-            <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1108', 'ss1_hd_h', this)">SS 1 HD Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://teamro.wapka.site/?id=ss1hihd', 'ss1_hd_h', this)">SS 1 HD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://teamro.wapka.site/?id=ss2', 'ss2_sd', this)">SS 2 SD</button>
             <button class="channel-btn" onclick="loadCh('https://jtvxweb.pages.dev/pind?id=1109', 'ss2_hd', this)">Star Sports 2 HD</button>
             <button class="channel-btn" onclick="loadCh('https://tv4wab.pages.dev/?id=1984', 'ss2_hd_h_new', this)">Star Sports 2 HD Hindi</button>
@@ -154,8 +121,8 @@
             <button class="channel-btn" onclick="loadCh('https://ollinone.pages.dev/tnt3', 'tnt3', this)">TNT Sports 3</button>
             <button class="channel-btn" onclick="loadCh('https://tv4wapp.wapka.fun/?app=cricketmpd&id=4', 'tnt4', this)">TNT Sports 4</button>
             <button class="channel-btn" onclick="loadCh('https://khel-box.github.io/Wlo', 'willow', this)">Willow Sports</button>
+            <button class="channel-btn" onclick="loadCh('https://cineiccwc.pages.dev/willow-cricbuzz', 'willow_cric', this)">Willow Cricbuzz</button>
         </div>
-
     </div>
 
     <div class="popup-overlay show" id="popup">
@@ -167,18 +134,18 @@
             <div class="popup-divider"></div>
             <p>Join our WhatsApp for free live streams, match updates, and exclusive content. Follow our updates channel to stay notified instantly!</p>
             <div class="popup-actions">
-                <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="btn-action btn-join">Join Now </a>
-                <button class="btn-action btn-stream" onclick="hidePopup()">Continue to Stream </button>
+                <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="btn-action btn-join">Join Now</a>
+                <button class="btn-action btn-stream" onclick="hidePopup()">Continue to Stream</button>
             </div>
         </div>
     </div>
 
     <script>
         const channelMap = {
-            'ss1_sd': 'https://tvgotk.wapka.site/?id=ss1',
-            'ss1_hd': 'https://jtvxweb.pages.dev/pind?id=1106',
+            'ss1_sd': 'https://cineiccwc.pages.dev/hindi/',
+            'ss1_hd': 'https://teamro.wapka.site/?id=ss1hd',
             'ss1_sd_h': 'https://tv4wab.pages.dev/?id=362',
-            'ss1_hd_h': 'https://jtvxweb.pages.dev/pind?id=1108',
+            'ss1_hd_h': 'https://teamro.wapka.site/?id=ss1hihd',
             'ss2_sd': 'https://teamro.wapka.site/?id=ss2',
             'ss2_hd': 'https://jtvxweb.pages.dev/pind?id=1109',
             'ss2_hd_h_new': 'https://tv4wab.pages.dev/?id=1984',
@@ -196,7 +163,8 @@
             'tnt1': 'https://tnt1-cricstreaming.pages.dev/',
             'tnt3': 'https://ollinone.pages.dev/tnt3',
             'tnt4': 'https://tv4wapp.wapka.fun/?app=cricketmpd&id=4',
-            'willow': 'https://khel-box.github.io/Wlo'
+            'willow': 'https://khel-box.github.io/Wlo',
+            'willow_cric': 'https://cineiccwc.pages.dev/willow-cricbuzz'
         };
 
         let activeId = 'ss1_sd';
@@ -214,9 +182,7 @@
             }
         });
 
-        function hidePopup() { 
-            document.getElementById('popup').classList.remove('show'); 
-        }
+        function hidePopup() { document.getElementById('popup').classList.remove('show'); }
 
         function loadCh(url, id, btn) {
             activeId = id;
@@ -229,9 +195,7 @@
 
         function copyLink() {
             const cleanShareUrl = window.location.origin + window.location.pathname + '?share=' + activeId;
-            navigator.clipboard.writeText(cleanShareUrl).then(() => {
-                alert('Link copied: ' + cleanShareUrl);
-            });
+            navigator.clipboard.writeText(cleanShareUrl).then(() => { alert('Link copied: ' + cleanShareUrl); });
         }
 
         function shareToWhatsAppDirect() {
