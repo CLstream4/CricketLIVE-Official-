@@ -16,6 +16,10 @@
 
         .player-section { width: 100%; max-width: 950px; margin: 0 auto; padding: 12px; transition: all 0.3s ease; }
         .video-container { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; border: 3px solid #1e293b; box-shadow: 0 15px 35px rgba(0,0,0,0.7); position: relative; }
+        
+        /* Willow iOS Fix */
+        .video-container.willow-ios-mode { display: flex; align-items: center; justify-content: center; }
+
         iframe { width: 100%; height: 100%; border: none; }
 
         .premium-banner-box { width: 100%; max-width: 950px; margin: 0 auto; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #0f172a; border-radius: 10px; border: 1px solid #1e293b; box-sizing: border-box; }
@@ -71,7 +75,7 @@
 
     <div class="main-container">
         <div class="player-section">
-            <div class="video-container">
+            <div id="videoContainer" class="video-container">
                 <iframe id="player" src="https://teamro.wapka.site/?id=ss1hd" allow="autoplay; encrypted-media; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
             </div>
         </div>
@@ -104,12 +108,15 @@
             <button class="channel-btn" onclick="loadCh('https://cinejtv.pages.dev/?id=1991', 'ss2_hd', this)">Star Sports 2 HD</button>
             <button class="channel-btn" onclick="loadCh('https://tv4wab.pages.dev/?id=1984', 'ss2_hd_h_new', this)">Star Sports 2 HD Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://tvgotk.wapka.site/home', 'ss2_hd_h', this)">SS 2 HD Hindi</button>
-            <button class="channel-btn" onclick="loadCh('https://allinonereborn.sbs/sony/ptest.php?id=sony-ten-1-hd', 'ten1_hd', this)">Sony Ten 1 HD</button>
-            <button class="channel-btn" onclick="loadCh('https://allinonereborn.sbs/sony/ptest.php?id=sony-ten-2-hd', 'ten2_hd', this)">Sony Ten 2 HD</button>
-            <button class="channel-btn" onclick="loadCh('https://allinonereborn.sbs/sony/ptest.php?id=sony-ten-3-hd', 'ten3_hd', this)">Sony Ten 3 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://cinejtv.pages.dev/?id=1984', 'ten1_hd', this)">Sony Ten 1 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://cinejtv.pages.dev/?id=1985', 'ten2_hd', this)">Sony Ten 2 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://cinejtv.pages.dev/?id=1986', 'ten3_hd', this)">Sony Ten 3 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://cinejtv.pages.dev/?id=1987', 'ten4_hd', this)">Sony Ten 4</button>
+            <button class="channel-btn" onclick="loadCh('https://cinejtv.pages.dev/?id=1988', 'ten5_hd', this)">Sony Ten 5</button>
             <button class="channel-btn" onclick="loadCh('https://tvwap.pages.dev/?id=hindi', 'sliv_h', this)">Sony LIV Hindi</button>
             <button class="channel-btn" onclick="loadCh('https://tvwap.pages.dev/?id=english', 'sliv_e', this)">Sony LIV English</button>
             <button class="channel-btn" onclick="loadCh('https://khel-box.github.io/Wlo', 'willow', this)">Willow Sports</button>
+            <button class="channel-btn" onclick="loadCh('https://allinone-reborn.pages.dev/willo-ios', 'willow_ios', this)">Willow !OS</button>
             <button class="channel-btn" onclick="loadCh('https://cineprime7.pages.dev/willow-cricbuzz', 'willow_cric', this)">Willow Cricbuzz</button>
             <button class="channel-btn" onclick="loadCh('https://teamroshaka2.pages.dev/?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F142979_english_hls_fc331367d392190_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1783171805~_GO%3DGenerated~acl%3D%2Fmumbai%2F142979_english_hls_fc331367d392190_1ta-di_h264%2F*%7ESignature%3DAc2BFenuXhfRr1QY9bI_UpFencoe2k9ZEmcu8OIz2rbhe2UEOs7Izkub3T5yvQD313WArA2EjuuxikLxRzLRZ5xg4aYH', 'fancode', this)">FanCode</button>
         </div>
@@ -137,17 +144,21 @@
             'ss2_hd': 'https://cinejtv.pages.dev/?id=1991',
             'ss2_hd_h_new': 'https://tv4wab.pages.dev/?id=1984',
             'ss2_hd_h': 'https://tvgotk.wapka.site/home',
-            'ten1_hd': 'https://allinonereborn.sbs/sony/ptest.php?id=sony-ten-1-hd',
-            'ten2_hd': 'https://allinonereborn.sbs/sony/ptest.php?id=sony-ten-2-hd',
-            'ten3_hd': 'https://allinonereborn.sbs/sony/ptest.php?id=sony-ten-3-hd',
+            'ten1_hd': 'https://cinejtv.pages.dev/?id=1984',
+            'ten2_hd': 'https://cinejtv.pages.dev/?id=1985',
+            'ten3_hd': 'https://cinejtv.pages.dev/?id=1986',
+            'ten4_hd': 'https://cinejtv.pages.dev/?id=1987',
+            'ten5_hd': 'https://cinejtv.pages.dev/?id=1988',
             'sliv_h': 'https://tvwap.pages.dev/?id=hindi',
             'sliv_e': 'https://tvwap.pages.dev/?id=english',
             'willow': 'https://khel-box.github.io/Wlo',
+            'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
             'willow_cric': 'https://cineprime7.pages.dev/willow-cricbuzz',
             'fancode': 'https://teamroshaka2.pages.dev/?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F142979_english_hls_fc331367d392190_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1783171805~_GO%3DGenerated~acl%3D%2Fmumbai%2F142979_english_hls_fc331367d392190_1ta-di_h264%2F*%7ESignature%3DAc2BFenuXhfRr1QY9bI_UpFencoe2k9ZEmcu8OIz2rbhe2UEOs7Izkub3T5yvQD313WArA2EjuuxikLxRzLRZ5xg4aYH'
         };
 
         let activeId = 'ss1_hd';
+        const videoContainer = document.getElementById('videoContainer');
 
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('popup').classList.add('show');
@@ -157,15 +168,25 @@
                 if(channelMap[targetId]) {
                     document.body.classList.add('share-mode');
                     activeId = targetId;
+                    applyWillowFix(activeId);
                     document.getElementById('player').src = channelMap[targetId];
                 }
             }
         });
 
+        function applyWillowFix(id) {
+            if(id === 'willow_ios') {
+                videoContainer.classList.add('willow-ios-mode');
+            } else {
+                videoContainer.classList.remove('willow-ios-mode');
+            }
+        }
+
         function hidePopup() { document.getElementById('popup').classList.remove('show'); }
 
         function loadCh(url, id, btn) {
             activeId = id;
+            applyWillowFix(id);
             const player = document.getElementById('player');
             player.src = '';
             setTimeout(() => { player.src = url; }, 50);
