@@ -2,167 +2,289 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Temporarily Closed</title>
-    <!-- Google Fonts for Premium Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CRICKETLIVE! OFFICIAL</title>
+    
+    <link rel="preconnect" href="https://allinonereborn.xyz">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Poppins:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        body { margin: 0; background-color: #050810; color: white; font-family: 'Poppins', sans-serif; text-align: center; padding-bottom: 20px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        
+        /* POPUP */
+        #entry-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 16, 0.9); backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; z-index: 99999; }
+        .pop-box { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); padding: 25px; border-radius: 20px; width: 85%; max-width: 320px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .support-text { font-family: 'Bebas Neue', cursive; font-size: 32px; color: #00d2ff; letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        .pop-btn { padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; color: white; font-size: 13px; border: 1px solid rgba(255,255,255,0.1); }
+
+        /* SIDEBAR */
+        .floating-sidebar { position: fixed; left: 10px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .sidebar-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; text-decoration: none; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
+        .sidebar-wp { background: rgba(37, 211, 102, 0.8); }
+        .sidebar-tg { background: rgba(0, 136, 204, 0.8); }
+
+        .header { padding: 15px 10px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); }
+        .header h1 { font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #00d2ff, #f9a8d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; margin: 0; }
+
+        #live-signal-box { display: none; justify-content: space-between; align-items: center; width: 96%; max-width: 850px; margin: 10px auto -15px auto; }
+        #live-signal { background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3); display: flex; align-items: center; }
+        .green-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 4px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* REFRESH PLAYER BUTTON */
+        .refresh-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #00d2ff; font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .refresh-btn:active { transform: scale(0.95); }
+
+        /* VIDEO WRAPPER */
+        .video-wrapper { 
+            width: 96%; max-width: 850px; margin: 20px auto; background: #000; border: 1px solid rgba(0, 210, 255, 0.5); 
+            border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; will-change: transform;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #09090b 100%);
-            color: #f8fafc;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            padding: 20px;
-        }
+        #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; top: 0; z-index: 1; transform-origin: top center; transition: all 0.2s ease; }
+        
+        .zoom-ios { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
+        
+        /* Cricbuzz 1 ke liye baal jitna aur upar adjust kiya gaya hai */
+        .zoom-cricbuzz-nozoom { height: 380% !important; width: 100% !important; top: -427px !important; transform: none !important; }
 
-        /* Glassmorphism Card Effect */
-        .container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 45px 35px;
-            max-width: 520px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-            animation: fadeIn 0.8s ease-in-out;
-        }
+        .ad-block-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
+        .ad-block-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* Modern Icon Box */
-        .icon-box {
-            width: 70px;
-            height: 70px;
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px auto;
-        }
+        #watermark { position: absolute; top: 8px; left: 8px; z-index: 10; font-family: 'Orbitron', sans-serif; font-size: 8px; color: #ffffff; background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase; pointer-events: none; }
 
-        .icon-box svg {
-            width: 32px;
-            height: 32px;
-            fill: #f59e0b;
-        }
+        .reaction-bar { display: none; justify-content: center; gap: 12px; margin: 15px auto; }
+        .react-btn { font-size: 20px; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); color: white; }
+        
+        .floating-emoji { position: fixed; bottom: 100px; left: 50%; pointer-events: none; font-size: 35px; z-index: 10000; animation: popBounce 2s ease-out forwards; }
+        @keyframes popBounce { 0% { transform: translateY(0) scale(0); opacity: 0; } 15% { transform: translateY(-30px) scale(1.5); opacity: 1; } 100% { transform: translateY(-400px) translateX(50px); opacity: 0; } }
 
-        h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
+        .section-title { font-family: 'Bebas Neue', cursive; font-size: 24px; color: #00d2ff; margin: 20px 0 10px; letter-spacing: 1px; }
+        .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px auto; max-width: 94%; }
+        .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); transition: transform 0.1s, border 0.2s, box-shadow 0.2s; }
+        .channel-button:active { transform: scale(0.95); }
+        
+        .channel-button.active-channel { border: 2px solid #00ffff !important; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); transform: scale(1.02); }
 
-        p {
-            font-size: 15px;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
+        .cricbuzz-btn { background: linear-gradient(45deg, #1d976c, #93f9b9) !important; color: #000 !important; }
+        .india-btn { background: linear-gradient(45deg, #FF9933, #ffffff, #138808) !important; color: #000 !important; border: 1px solid #fff !important; }
+        .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
+        .ptv-btn { background: linear-gradient(45deg, #004225, #019031) !important; color: #fff !important; border: 1px solid #ffffff !important; }
 
-        .divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.08);
-            margin: 25px 0;
-        }
+        #sharePreview { font-size: 10px; color: #00d2ff; background: rgba(17, 24, 39, 0.8); padding: 10px; border-radius: 4px; flex-grow: 1; border: 1px solid rgba(51, 65, 85, 0.5); text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .copy-btn { background: linear-gradient(90deg, #00d2ff, #0072ff); color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .wp-share-btn { background: #25D366; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 5px; }
+        
+        .social-container { display: flex; flex-direction: column; gap: 10px; align-items: center; margin: 15px auto; width: 90%; max-width: 420px; }
+        .join-btn-base { width: 100%; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; color: white; }
+        .join-wp { background: rgba(37, 211, 102, 0.2); border: 1px solid #25D366; }
+        .join-tg { background: rgba(0, 136, 204, 0.2); border: 1px solid #0088cc; }
 
-        /* WhatsApp CTA Section */
-        .cta-text {
-            font-size: 15px;
-            color: #ffffff;
-            margin-bottom: 22px;
-            font-weight: 600;
-            line-height: 1.5;
-        }
-
-        .cta-text span {
-            color: #25D366;
-            font-weight: 800;
-        }
-
-        /* Ultra Premium WhatsApp Button */
-        .whatsapp-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #25D366 0%, #10b981 100%);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 16px 36px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease;
-            letter-spacing: 0.3px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .whatsapp-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: #ffffff;
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6);
-            background: linear-gradient(135deg, #2ae86e 0%, #059669 100%);
-        }
-
-        .whatsapp-btn:active {
-            transform: translateY(-1px);
-        }
+        .hide-on-share-permanent { display: block; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Warning Icon SVG -->
-        <div class="icon-box">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 2L1 21h22M12 6l7.53 13H4.47M11 10v4h2v-4m-2 6v2h2v-2"/>
-            </svg>
-        </div>
-
-        <h1>Site Temporarily Closed</h1>
-        <p>This site has been closed for a few days. You can join our official WhatsApp channel for all the latest cricket news and updates.</p>
-        
-        <div class="divider"></div>
-
-        <!-- WhatsApp CTA Text -->
-        <p class="cta-text">
-            Don't Miss Out! Get All Fast & Latest Cricket News Updates Directly On Our Official <span>WhatsApp Channel</span>:
-        </p>
-        
-        <!-- Premium WhatsApp Button with Icon -->
-        <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" class="whatsapp-btn">
-            <svg viewBox="0 0 24 24">
-                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.18 3.03 14.69 2 12.04 2zM12.04 20.1c-1.43 0-2.83-.38-4.06-1.11l-.29-.17-3.03.8.81-2.95-.19-.31c-.8-1.28-1.22-2.77-1.22-4.3 0-4.43 3.6-8.03 8.03-8.03 2.14 0 4.15.83 5.66 2.34 1.51 1.51 2.34 3.52 2.34 5.66 0 4.43-3.6 8.03-8.03 8.03zm4.4-6.03c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.93-1.19-.71-.63-1.19-1.42-1.33-1.66-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.31-.74-1.79-.2-.47-.4-.41-.54-.42l-.46-.01c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.34.98 2.5c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/>
-            </svg>
-            <span>Join WhatsApp Channel</span>
-        </a>
+<div id="entry-popup">
+    <div class="pop-box">
+        <div class="support-text">&#128640; JOIN US</div>
+        <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="pop-btn" style="background:#25D366;"><i class="fab fa-whatsapp"></i> WHATSAPP GROUP</a>
+        <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="pop-btn" style="background:#0088cc;"><i class="fab fa-telegram"></i> TELEGRAM CHANNEL</a>
+        <div style="margin-top:18px; cursor:pointer; font-size:11px; color:#00d2ff; font-weight:bold; text-decoration:underline;" onclick="closePopup()">CONTINUE TO STREAM</div>
     </div>
+</div>
 
+<div class="floating-sidebar hide-on-share-permanent">
+    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="sidebar-icon sidebar-wp"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="sidebar-icon sidebar-tg"><i class="fab fa-telegram"></i></a>
+</div>
+
+<header class="header" id="site-header"><h1>CRICKETLIVE! OFFICIAL</h1></header>
+
+<div id="live-signal-box">
+    <div id="live-signal"><span class="green-dot"></span>LIVE</div>
+    <button class="refresh-btn" onclick="refreshPlayer()"><i class="fas fa-sync-alt"></i> Refresh Stream</button>
+</div>
+
+<div class="video-wrapper">
+    <div id="loading-skeleton" class="skeleton"></div>
+    <div id="watermark">CricketLIVE! Official</div>
+    <div id="player-container"><div style="color: #64748b; padding-top: 20%; font-size: 13px;">Channel Select Karein...</div></div>
+</div>
+
+<div class="reaction-bar" id="reaction-bar">
+    <div class="react-btn" onclick="react('&#128293;')">&#128293;</div>
+    <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
+    <div class="react-btn" onclick="react('&#129321;')">&#129321;</div>
+    <div class="react-btn" onclick="react('4️⃣')">4️⃣</div>
+    <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
+</div>
+
+<div id="main-grid" class="hide-on-share-permanent">
+    <div class="section-title">LIVE CHANNELS</div>
+    <div class="channel-grid">
+        <button class="channel-button cricbuzz-btn" data-slug="cricbuzz_1" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
+        <button class="channel-button" data-slug="willow" onclick="loadMatch('willow')">WILLOW SPORTS</button>
+        <button class="channel-button" data-slug="willow_ios" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
+        <button class="channel-button india-btn" data-slug="ss1_hd" onclick="loadMatch('ss1_hd')">Star Sports 1 HD</button>
+        <button class="channel-button india-btn" data-slug="ss1_hd_hindi" onclick="loadMatch('ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
+        <button class="channel-button india-btn" data-slug="ss1_hd_tamil" onclick="loadMatch('ss1_hd_tamil')">Star Sports 1 HD Tamil</button>
+        <button class="channel-button india-btn" data-slug="ss2_hd" onclick="loadMatch('ss2_hd')">Star Sports 2 HD</button>
+        <button class="channel-button india-btn" data-slug="ss2_sd_hindi" onclick="loadMatch('ss2_sd_hindi')">Star Sports 2 SD Hindi</button>
+        <button class="channel-button india-btn" data-slug="ss2_hd_hindi" onclick="loadMatch('ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
+        <button class="channel-button india-btn" data-slug="ss_select_1hd" onclick="loadMatch('ss_select_1hd')">Star Sports Select 1HD</button>
+        <button class="channel-button" data-slug="dd_sports" style="background: #004e92;" onclick="loadMatch('dd_sports')">DD Sports</button>
+        <button class="channel-button ptv-btn" data-slug="sky_sports_2" onclick="loadMatch('sky_sports_2')">Sky Sports 2</button>
+        <button class="channel-button sony-btn" data-slug="euro_sports_hd" onclick="loadMatch('euro_sports_hd')">Euro Sports HD</button>
+        <button class="channel-button" data-slug="fox_501" style="background: linear-gradient(45deg, #111, #333); border: 1px solid #ffaa00;" onclick="loadMatch('fox_501')">FOX SPORTS 501</button>
+        <button class="channel-button sony-btn" data-slug="sony_sports_1_hd" onclick="loadMatch('sony_sports_1_hd')">Sony Sports 1 HD</button>
+        <button class="channel-button sony-btn" data-slug="sony_sports_4_hindi" onclick="loadMatch('sony_sports_4_hindi')">Sony Sports 4 Hindi</button>
+        <button class="channel-button sony-btn" data-slug="sony_sports_5" onclick="loadMatch('sony_sports_5')">Sony Sports 5</button>
+        <button class="channel-button" data-slug="tnt_sports_2" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
+        <button class="channel-button" data-slug="fancode" onclick="loadMatch('fancode')">FanCode</button>
+        <button class="channel-button sony-btn" data-slug="sony_liv" onclick="loadMatch('sony_liv')">Sony LIV</button>
+        <button class="channel-button sony-btn" data-slug="sony_liv_hindi" onclick="loadMatch('sony_liv_hindi')">Sony LIV Hindi</button>
+        <button class="channel-button cricbuzz-btn" data-slug="willow_cricbuzz_usa" onclick="loadMatch('willow_cricbuzz_usa')">Willow Cricbuzz USA</button>
+        <button class="channel-button" data-slug="sky_sports_nz_1" style="background: linear-gradient(45deg, #002D62, #00509D);" onclick="loadMatch('sky_sports_nz_1')">Sky Sports NZ 1</button>
+        <button class="channel-button" data-slug="sky_sports_nz_2" style="background: linear-gradient(45deg, #002D62, #00509D);" onclick="loadMatch('sky_sports_nz_2')">Sky Sports NZ 2</button>
+        <button class="channel-button" data-slug="sky_sports_nz_3" style="background: linear-gradient(45deg, #002D62, #00509D);" onclick="loadMatch('sky_sports_nz_3')">Sky Sports NZ 3</button>
+        <button class="channel-button" data-slug="and_tv" style="background: linear-gradient(45deg, #8A2BE2, #4B0082);" onclick="loadMatch('and_tv')">&TV</button>
+        <button class="channel-button" data-slug="and_pictures_sd" style="background: linear-gradient(45deg, #8A2BE2, #4B0082);" onclick="loadMatch('and_pictures_sd')">& Pictures SD</button>
+        <button class="channel-button" data-slug="and_pictures_hd" style="background: linear-gradient(45deg, #8A2BE2, #4B0082);" onclick="loadMatch('and_pictures_hd')">& Pictures HD</button>
+        <button class="channel-button" data-slug="zee_tv" style="background: linear-gradient(45deg, #0047AB, #001848);" onclick="loadMatch('zee_tv')">Zee TV</button>
+        <button class="channel-button" data-slug="zee_tv_hd" style="background: linear-gradient(45deg, #0047AB, #001848);" onclick="loadMatch('zee_tv_hd')">Zee TV HD</button>
+        <button class="channel-button" data-slug="z_cinema_hd" style="background: linear-gradient(45deg, #0047AB, #001848);" onclick="loadMatch('z_cinema_hd')">Z Cinema HD</button>
+        <button class="channel-button sony-btn" data-slug="sony_entertainment_hd" onclick="loadMatch('sony_entertainment_hd')">Sony Entertainment HD</button>
+        <button class="channel-button sony-btn" data-slug="sony_sab" onclick="loadMatch('sony_sab')">Sony Sab</button>
+        <button class="channel-button sony-btn" data-slug="sony_pal" onclick="loadMatch('sony_pal')">Sony Pal</button>
+        <button class="channel-button sony-btn" data-slug="sony_yay" onclick="loadMatch('sony_yay')">Sony Yay</button>
+        <button class="channel-button sony-btn" data-slug="sony_max_hd" onclick="loadMatch('sony_max_hd')">Sony Max HD</button>
+        <button class="channel-button sony-btn" data-slug="sony_max_2" onclick="loadMatch('sony_max_2')">Sony Max 2</button>
+        <button class="channel-button sony-btn" data-slug="sony_wah" onclick="loadMatch('sony_wah')">Sony Wah</button>
+        <button class="channel-button sony-btn" data-slug="sony_pix" onclick="loadMatch('sony_pix')">Sony Pix</button>
+        <button class="channel-button sony-btn" data-slug="bbc_earth" onclick="loadMatch('bbc_earth')">BBC Earth</button>
+        <button class="channel-button" data-slug="colors_hd" style="background: linear-gradient(45deg, #FF1493, #C71585);" onclick="loadMatch('colors_hd')">Colours HD</button>
+        <button class="channel-button india-btn" data-slug="star_gold_hd" onclick="loadMatch('star_gold_hd')">Star Gold HD</button>
+        <button class="channel-button india-btn" data-slug="star_plus_hd" onclick="loadMatch('star_plus_hd')">Star Plus HD</button>
+        <button class="channel-button india-btn" data-slug="star_bharat_hd" onclick="loadMatch('star_bharat_hd')">Star Bharat HD</button>
+    </div>
+</div>
+
+<div class="hide-on-share-permanent" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px auto; width: 94%;">
+    <div id="sharePreview">Select a channel...</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyShareMessage()">COPY</button>
+    <button class="wp-share-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp"></i></button>
+</div>
+
+<div class="social-container hide-on-share-permanent">
+    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="join-btn-base join-wp"><i class="fab fa-whatsapp"></i> Join WhatsApp Channel</a>
+    <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="join-btn-base join-tg"><i class="fab fa-telegram"></i> Join Telegram Channel</a>
+</div>
+
+<script>
+    const channels = {
+        'cricbuzz_1': 'https://holy-water-b004.xdfg.workers.dev/?url=https://hey-lookme.shop/cursed.php/cursed/stream.m3u8',
+        'willow': 'https://khel-box.github.io/Wlo',
+        'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
+        'ss1_hd': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=ss1',
+        'ss1_hd_hindi': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=ss1h',
+        'ss1_hd_tamil': 'https://jtvxweb.pages.dev/pind?id=3278',
+        'ss2_hd': 'https://jjtvxweb.pages.dev/pind?id=1109',
+        'ss2_sd_hindi': 'https://jjtvxweb.pages.dev/pind?id=1141',
+        'ss2_hd_hindi': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F360p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
+        'ss_select_1hd': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F480p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
+        'dd_sports': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
+        'sky_sports_2': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F720p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
+        'euro_sports_hd': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F1080p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
+        'fox_501': 'https://fcw-4c3.pages.dev/player_india?url=https%3A%2F%2Fallinonereborn2.online%2Ffctest%2Fplaylists%2Fmatch_4249780_ENG%2Fenglish.m3u8',
+        'sony_sports_1_hd': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=sony1',
+        'sony_sports_4_hindi': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=sony3',
+        'sony_sports_5': 'https://tvwap.pages.dev/?id=s5',
+        'tnt_sports_2': 'https://matcheslinkz-five.vercel.app/amz?id=B0HJX77Q8W',
+        'fancode': 'https://fcw-4c3.pages.dev/player_india?url=https%3A%2F%2Fallinonereborn2.online%2Ffctest%2Fplaylists%2Fmatch_4249095_ENG%2Fenglish.m3u8',
+        'sony_liv': 'https://tvgotk.wapka.site/?id=sliv1',
+        'sony_liv_hindi': 'https://teamro.wapka.site/?id=sliv3',
+        'willow_cricbuzz_usa': 'https://streamhub.dhruvpatil681.workers.dev/2026.m3u8',
+        'sky_sports_nz_1': 'http://45.12.32.190:8080/UK-SkySport1NZ/video.m3u8',
+        'sky_sports_nz_2': 'http://45.12.32.190:8080/UK-SkySport2NZ/video.m3u8',
+        'sky_sports_nz_3': 'http://45.12.32.190:8080/UK-SkySport3NZ/video.m3u8',
+        'and_tv': 'https://tv4wab.wapka.site?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Andtvhd/default/index.mpd67d18634ccb04875875c60fb8d9caaba99a66471c09e4b8a8dc39a0de6803f75',
+        'and_pictures_sd': 'https://tv4wab.wapka.site?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Andpictures/default/manifest.mpd7a214a974e4f4d1d9bb66364d5f0cb928dea532cabfe4f71ba20f62310e7949f',
+        'and_pictures_hd': 'https://tv4wab.wapka.site?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Andpictureshd/default/index.mpdde8045e9f0fb4d03845dcc4a8bd7712a6807bd09bda34ada83152908192af6d6',
+        'zee_tv': 'https://tv4wab.wapka.site/?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeetv/default/manifest.mpdbb722190f2bb446391020411a7d0828bed068cf84f0640ccbc7c0e395c0a272e',
+        'zee_tv_hd': 'https://tv4wab.wapka.site/?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeetvhd/default/manifest.mpdbb722190f2bb446391020411a7d0828bed068cf84f0640ccbc7c0e395c0a272e',
+        'z_cinema_hd': 'https://da86m1sqpm3o0.cloudfront.net/28072023/smil:zeecinemaapachd.smil/chunklist_b2628000.m3u8',
+        'sony_entertainment_hd': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-hd',
+        'sony_sab': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-sab',
+        'sony_pal': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-pal',
+        'sony_yay': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-yay',
+        'sony_max_hd': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-max-hd',
+        'sony_max_2': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-max2',
+        'sony_wah': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-wah',
+        'sony_pix': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-pix-hd',
+        'bbc_earth': 'https://allinonereborn2.online/sony/ptest1.html?id=bbc-earth',
+        'colors_hd': 'https://jjtvxweb.pages.dev/pind?id=144',
+        'star_gold_hd': 'https://jjtvxweb.pages.dev/pind?id=156',
+        'star_plus_hd': 'https://jjtvxweb.pages.dev/pind?id=1132',
+        'star_bharat_hd': 'https://jjtvxweb.pages.dev/pind?id=931'
+    };
+
+    let currentChannel = null;
+    let popupClosed = false;
+
+    function loadMatch(slug) {
+        if (!channels[slug]) return;
+        currentChannel = slug;
+        const container = document.getElementById('player-container');
+        document.getElementById('loading-skeleton').style.display = 'block';
+        document.querySelectorAll('.channel-button').forEach(btn => btn.classList.remove('active-channel'));
+        const targetBtn = document.querySelector(`[data-slug="${slug}"]`);
+        if (targetBtn) {
+            targetBtn.classList.add('active-channel');
+            document.title = `🔴 LIVE: ${targetBtn.innerText} | CRICKETLIVE!`;
+        }
+        let customClass = '';
+        if (slug === 'willow_ios') {
+            customClass = 'class="zoom-ios"';
+        } else if (slug === 'cricbuzz_1') {
+            customClass = 'class="zoom-cricbuzz-nozoom"';
+        }
+        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"';
+        
+        if (slug === 'cricbuzz_1') {
+            container.innerHTML = `<div class="ad-block-container"><iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe></div>`;
+        } else {
+            container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
+        }
+        
+        setTimeout(() => { hideSkeleton(); }, 4000);
+        if (popupClosed) showUIParts();
+        document.getElementById('watermark').style.display = 'inline-block';
+        document.getElementById('sharePreview').innerText = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
+    }
+
+    function refreshPlayer() { if (currentChannel) loadMatch(currentChannel); }
+    function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
+    function showUIParts() { if (currentChannel && popupClosed) { document.getElementById('live-signal-box').style.display = 'flex'; document.getElementById('reaction-bar').style.display = 'flex'; } }
+    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; popupClosed = true; showUIParts(); }
+    
+    function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
+    function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
+    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
+
+    window.onload = function() {
+        const ch = new URLSearchParams(window.location.search).get('ch');
+        if (ch && channels[ch]) {
+            document.querySelectorAll('.hide-on-share-permanent').forEach(el => el.style.display = 'none');
+            loadMatch(ch);
+        } else {
+            document.getElementById('entry-popup').style.display = 'flex';
+        }
+    };
+</script>
 </body>
 </html>
