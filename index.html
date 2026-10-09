@@ -2,289 +2,330 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRICKETLIVE! OFFICIAL</title>
-    
-    <link rel="preconnect" href="https://allinonereborn.xyz">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Poppins:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CricketLIVE! Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background-color: #050810; color: white; font-family: 'Poppins', sans-serif; text-align: center; padding-bottom: 20px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #080c14; color: #fff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        .top-header { padding: 14px; text-align: center; background: #0f172a; border-bottom: 2px solid #1e293b; z-index: 100; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
+        .brand-name { font-size: 1.6rem; font-weight: 400; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+
+        .main-container { flex: 1; display: flex; flex-direction: column; overflow-y: auto; width: 100%; }
+
+        .player-section { width: 100%; max-width: 950px; margin: 0 auto; padding: 12px; transition: all 0.3s ease; }
+        .video-container { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; border: 3px solid #1e293b; box-shadow: 0 15px 35px rgba(0,0,0,0.7); position: relative; }
         
-        /* POPUP */
-        #entry-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 16, 0.9); backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; z-index: 99999; }
-        .pop-box { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); padding: 25px; border-radius: 20px; width: 85%; max-width: 320px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .support-text { font-family: 'Bebas Neue', cursive; font-size: 32px; color: #00d2ff; letter-spacing: 2px; margin-bottom: 20px; display: block; }
-        .pop-btn { padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; color: white; font-size: 13px; border: 1px solid rgba(255,255,255,0.1); }
+        body.share-mode .video-container.willow-ios-mode { display: flex !important; align-items: center !important; justify-content: center !important; }
+        body.share-mode .video-container.willow-ios-mode iframe { width: 100% !important; height: 100% !important; object-fit: contain !important; }
 
-        /* SIDEBAR */
-        .floating-sidebar { position: fixed; left: 10px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .sidebar-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; text-decoration: none; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
-        .sidebar-wp { background: rgba(37, 211, 102, 0.8); }
-        .sidebar-tg { background: rgba(0, 136, 204, 0.8); }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        .header { padding: 15px 10px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); }
-        .header h1 { font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #00d2ff, #f9a8d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; margin: 0; }
-
-        #live-signal-box { display: none; justify-content: space-between; align-items: center; width: 96%; max-width: 850px; margin: 10px auto -15px auto; }
-        #live-signal { background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 5px; font-size: 9px; font-weight: bold; color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3); display: flex; align-items: center; }
-        .green-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 4px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* REFRESH PLAYER BUTTON */
-        .refresh-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #00d2ff; font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 4px; }
-        .refresh-btn:active { transform: scale(0.95); }
-
-        /* VIDEO WRAPPER */
-        .video-wrapper { 
-            width: 96%; max-width: 850px; margin: 20px auto; background: #000; border: 1px solid rgba(0, 210, 255, 0.5); 
-            border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; will-change: transform;
-        }
-
-        #main-player { width: 100%; height: 100%; border: 0; position: absolute; left: 0; top: 0; z-index: 1; transform-origin: top center; transition: all 0.2s ease; }
+        .premium-banner-box { width: 100%; max-width: 950px; margin: 0 auto; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #0f172a; border-radius: 10px; border: 1px solid #1e293b; box-sizing: border-box; }
+        .banner-left { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+        .banner-brand { font-size: 1.05rem; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .banner-sub { font-size: 0.65rem; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .zoom-ios { height: 100% !important; width: 100% !important; top: -10px !important; transform: scale(1.05) !important; }
+        .btn-whatsapp-banner { background: #0284c7; color: white; text-decoration: none; padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); white-space: nowrap; flex-shrink: 0; transition: 0.2s; }
+        .btn-whatsapp-banner svg { width: 16px; height: 16px; fill: #fff; }
+        .btn-whatsapp-banner:hover { background: #0ea5e9; }
+
+        .controls { width: 100%; max-width: 950px; margin: 0 auto; padding: 8px 12px; }
+        .btn-copy { width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: #38bdf8; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
+        .btn-copy:hover { background: #334155; }
+
+        .channel-list { width: 100%; max-width: 950px; margin: 0 auto; padding: 8px 12px 25px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 40vh; overflow-y: auto; }
+        .channel-list::-webkit-scrollbar { width: 6px; }
+        .channel-list::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
+        .channel-list::-webkit-scrollbar-thumb { background: #0284c7; border-radius: 4px; }
         
-        /* Cricbuzz 1 ke liye wahi purani original perfect setting jo ads aur visitor counter ko chupaye rakhegi */
-        .zoom-cricbuzz-nozoom { height: 380% !important; width: 100% !important; top: -427px !important; transform: none !important; }
+        .channel-btn { padding: 14px; background: #1e293b; border: 1px solid transparent; color: #fff; border-radius: 8px; cursor: pointer; font-size: 0.95rem; text-align: center; font-weight: 600; transition: 0.2s; }
+        .channel-btn.active { background: #0284c7; border-color: #0ea5e9; box-shadow: 0 0 12px rgba(2, 132, 199, 0.4); }
 
-        .ad-block-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
-        .ad-block-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        .popup-overlay { position: fixed; inset: 0; background: rgba(4, 6, 10, 0.9); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 99999; visibility: hidden; opacity: 0; transition: 0.3s; }
+        .popup-overlay.show { visibility: visible; opacity: 1; }
+        .popup-box { background: #111726; padding: 30px 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .popup-icon-container { width: 65px; height: 65px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; border: 1px solid #2d3748; }
+        .popup-icon-container svg { width: 35px; height: 35px; fill: #25D366; }
+        .popup-divider { width: 40px; height: 3px; background: #ef4444; margin: -5px auto 15px auto; border-radius: 2px; }
+        .popup-box h3 { font-size: 1.4rem; font-weight: 300; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; background: linear-gradient(135deg, #38bdf8, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+        .popup-box p { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+        .popup-actions { display: flex; flex-direction: column; gap: 10px; }
+        .btn-action { display: block; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; text-decoration: none; color: #fff; text-align: center; }
+        .btn-join { background: #25d366; }
+        .btn-stream { background: #0284c7; }
 
-        .skeleton { width: 100%; height: 100%; background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; display: none; position: absolute; top: 0; left: 0; z-index: 5; }
-        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        body.share-mode .channel-list, 
+        body.share-mode .controls { display: none !important; }
+        body.share-mode .player-section { max-width: 1000px; height: 68vh !important; padding: 15px 12px; }
+        body.share-mode .video-container { height: 100% !important; aspect-ratio: auto !important; }
+        body.share-mode .premium-banner-box { max-width: 950px; margin: 5px auto 20px auto; }
 
-        #watermark { position: absolute; top: 8px; left: 8px; z-index: 10; font-family: 'Orbitron', sans-serif; font-size: 8px; color: #ffffff; background: rgba(0, 0, 0, 0.6); padding: 4px 8px; border-radius: 4px; display: none; text-transform: uppercase; pointer-events: none; }
-
-        .reaction-bar { display: none; justify-content: center; gap: 12px; margin: 15px auto; }
-        .react-btn { font-size: 20px; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); color: white; }
-        
-        .floating-emoji { position: fixed; bottom: 100px; left: 50%; pointer-events: none; font-size: 35px; z-index: 10000; animation: popBounce 2s ease-out forwards; }
-        @keyframes popBounce { 0% { transform: translateY(0) scale(0); opacity: 0; } 15% { transform: translateY(-30px) scale(1.5); opacity: 1; } 100% { transform: translateY(-400px) translateX(50px); opacity: 0; } }
-
-        .section-title { font-family: 'Bebas Neue', cursive; font-size: 24px; color: #00d2ff; margin: 20px 0 10px; letter-spacing: 1px; }
-        .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px auto; max-width: 94%; }
-        .channel-button { border: none; padding: 12px 5px; font-size: 11px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.3); transition: transform 0.1s, border 0.2s, box-shadow 0.2s; }
-        .channel-button:active { transform: scale(0.95); }
-        
-        .channel-button.active-channel { border: 2px solid #00ffff !important; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); transform: scale(1.02); }
-
-        .cricbuzz-btn { background: linear-gradient(45deg, #1d976c, #93f9b9) !important; color: #000 !important; }
-        .india-btn { background: linear-gradient(45deg, #FF9933, #ffffff, #138808) !important; color: #000 !important; border: 1px solid #fff !important; }
-        .sony-btn { background: linear-gradient(45deg, #000000, #333333) !important; color: #fff !important; border: 1px solid #fff !important; }
-        .ptv-btn { background: linear-gradient(45deg, #004225, #019031) !important; color: #fff !important; border: 1px solid #ffffff !important; }
-
-        #sharePreview { font-size: 10px; color: #00d2ff; background: rgba(17, 24, 39, 0.8); padding: 10px; border-radius: 4px; flex-grow: 1; border: 1px solid rgba(51, 65, 85, 0.5); text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-        .copy-btn { background: linear-gradient(90deg, #00d2ff, #0072ff); color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
-        .wp-share-btn { background: #25D366; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-left: 5px; }
-        
-        .social-container { display: flex; flex-direction: column; gap: 10px; align-items: center; margin: 15px auto; width: 90%; max-width: 420px; }
-        .join-btn-base { width: 100%; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; color: white; }
-        .join-wp { background: rgba(37, 211, 102, 0.2); border: 1px solid #25D366; }
-        .join-tg { background: rgba(0, 136, 204, 0.2); border: 1px solid #0088cc; }
-
-        .hide-on-share-permanent { display: block; }
+        .share-mode-wa-btn { display: none; width: 100%; max-width: 950px; margin: 0 auto; padding: 0 12px 25px 12px; text-align: center; }
+        body.share-mode .share-mode-wa-btn { display: block; }
+        .btn-wa-share-large { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; min-width: 240px; padding: 10px 24px; background: linear-gradient(135deg, #25d366, #1ebd56); color: white; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25); transition: all 0.3s ease; }
+        .btn-wa-share-large:hover { background: linear-gradient(135deg, #20ba5a, #1a9e49); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35); }
+        .btn-wa-share-large svg { width: 18px; height: 18px; fill: white; }
     </style>
 </head>
 <body>
 
-<div id="entry-popup">
-    <div class="pop-box">
-        <div class="support-text">&#128640; JOIN US</div>
-        <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="pop-btn" style="background:#25D366;"><i class="fab fa-whatsapp"></i> WHATSAPP GROUP</a>
-        <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="pop-btn" style="background:#0088cc;"><i class="fab fa-telegram"></i> TELEGRAM CHANNEL</a>
-        <div style="margin-top:18px; cursor:pointer; font-size:11px; color:#00d2ff; font-weight:bold; text-decoration:underline;" onclick="closePopup()">CONTINUE TO STREAM</div>
+    <div class="top-header"><h1 class="brand-name">CricketLIVE! Official</h1></div>
+
+    <div class="main-container">
+        <div class="player-section">
+            <div id="videoContainer" class="video-container">
+                <iframe id="player" src="https://sonucdn-v2.pages.dev/star?id=E1HD" allow="autoplay; encrypted-media; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+            </div>
+        </div>
+
+        <div class="premium-banner-box">
+            <div class="banner-left">
+                <span class="banner-brand">CricketLIVE! Official</span>
+                <span class="banner-sub">Free Streams • Live Scores • Updates</span>
+            </div>
+            <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="btn-whatsapp-banner">
+                <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 11.944.01c3.172.001 6.155 1.233 8.391 3.474 2.236 2.24 3.466 5.227 3.464 8.397-.004 6.548-5.34 11.887-11.885 11.887-2.008-.002-3.98-.51-5.732-1.472L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.09-2.885-6.951C16.452 1.961 13.991.937 11.439.937-5.438 0-9.863 4.414-9.866 9.831-.001 1.673.456 3.305 1.32 4.743L1.873 21.6l6.302-1.647zM17.13 14.15c-.31-.156-1.833-.905-2.115-1.008-.282-.103-.489-.156-.69.156-.202.312-.781 1.008-.957 1.213-.177.206-.353.23-.663.075-.312-.156-1.316-.486-2.507-1.548-.927-.827-1.553-1.849-1.735-2.16-.182-.312-.02-.48.136-.635.141-.14.312-.363.468-.546.156-.182.208-.312.312-.52.104-.207.052-.39-.026-.546-.078-.156-.69-1.662-.946-2.277-.25-.6-.525-.518-.72-.528l-.615-.01c-.213 0-.56.08-.854.4-.294.32-1.123 1.101-1.123 2.686 0 1.585 1.153 3.118 1.313 3.326.16.207 2.27 3.466 5.497 4.864.768.332 1.367.53 1.834.679.773.245 1.477.21 2.035.127.62-.093 1.833-.75 2.09-1.473.256-.723.256-1.343.18-1.473-.076-.13-.283-.207-.593-.364z"/></svg>
+                Join WhatsApp
+            </a>
+        </div>
+
+        <div class="controls">
+            <button class="btn-copy" onclick="copyLink()">Copy Active Channel Share Link</button>
+        </div>
+
+        <div class="share-mode-wa-btn">
+            <button class="btn-wa-share-large" onclick="shareToWhatsAppDirect()">
+                <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 11.944.01c3.172.001 6.155 1.233 8.391 3.474 2.236 2.24 3.466 5.227 3.464 8.397-.004 6.548-5.34 11.887-11.885 11.887-2.008-.002-3.98-.51-5.732-1.472L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.09-2.885-6.951C16.452 1.961 13.991.937 11.439.937-5.438 0-9.863 4.414-9.866 9.831-.001 1.673.456 3.305 1.32 4.743L1.873 21.6l6.302-1.647zM17.13 14.15c-.31-.156-1.833-.905-2.115-1.008-.282-.103-.489-.156-.69.156-.202.312-.781 1.008-.957 1.213-.177.206-.353.23-.663.075-.312-.156-1.316-.486-2.507-1.548-.927-.827-1.553-1.849-1.735-2.16-.182-.312-.02-.48.136-.635.141-.14.312-.363.468-.546.156-.182.208-.312.312-.52.104-.207.052-.39-.026-.546-.078-.156-.69-1.662-.946-2.277-.25-.6-.525-.518-.72-.528l-.615-.01c-.213 0-.56.08-.854.4-.294.32-1.123 1.101-1.123 2.686 0 1.585 1.153 3.118 1.313 3.326.16.207 2.27 3.466 5.497 4.864.768.332 1.367.53 1.834.679.773.245 1.477.21 2.035.127.62-.093 1.833-.75 2.09-1.473.256-.723.256-1.343.18-1.473-.076-.13-.283-.207-.593-.364z"/></svg>
+                Share Stream to WhatsApp
+            </button>
+        </div>
+
+        <div class="channel-list">
+            <button class="channel-btn active" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=E1HD', 'ss1_hd', this)">SS 1 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=H1SD', 'ss1_sd_h', this)">SS 1 SD Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=H1HD', 'ss1_hd_h', this)">SS 1 HD Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=E2HD', 'ss2_hd', this)">Star Sports 2 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=E2SD', 'ss2_sd', this)">Star Sports 2 SD</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=H2HD', 'ss2_hd_h_new', this)">Star Sports 2 HD Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=H2SD', 'ss2_hd_h', this)">SS 2 HD Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=SETHD', 'sliv_h', this)">Sony LIV Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://jioforcine.pages.dev/?id=STEN3', 'sliv_3_h', this)">Sony LIV Hindi</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN5HD', 'sliv_e', this)">Sony LIV English</button>
+            <button class="channel-btn" onclick="loadCh('https://jioforcine.pages.dev/?id=STENT', 'sliv_tamil', this)">Sony LIV Tamil</button>
+            <button class="channel-btn" onclick="loadCh('https://jioforcine.pages.dev/?id=STENTU', 'sliv_telugu', this)">Sony LIV Telugu</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=SS3', 'ss3', this)">Star Sports 3</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=E1SD', 'ss3_sd', this)">Star Sports 3 SD</button>
+            <button class="channel-btn" onclick="loadCh('https://tv4wab.wapka.site?https://jiotvpllive.cdn.jio.com/bpk-tv/StarSportsKhel_BTS/WDVLive/index.mpdab947ddbb9795d38bff35597b4f731082671e22eb7dc174c35b6aad4b113f7b0&__hdnea__=st=1788842404~exp=1788864004~acl=/bpk-tv/StarSportsKhel_BTS/WDVLive/*~hmac=1254104fb87e1a351cada78a474ff3cf304408bb6e2bee73d5e03937ae4c57dc', 'star_sports_khel', this)">Star Sports Khel</button>
+            <button class="channel-btn" onclick="loadCh('https://tv4wav.pages.dev/?app=jiohd&id=33722', 'ss3_new', this)">SS 3 New</button>
+            <button class="channel-btn" onclick="loadCh('https://tv4wab.wapka.site?https://a96aivottlinear-a.akamaihd.net/OTTB/iad-nitro/live/clients/dash/enc/gkswvaanl4/out/v1/4a1a46cdef9345a3a047588cfa523b40/cenc.mpd29909175882bb66557e51b765266c822:920b51ab82b6b1250aba897885467ca3', 'cricbuzz', this)">Cricbuzz</button>
+            
+            <!-- Updated Links -->
+            <button class="channel-btn" onclick="loadCh('https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F360p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778', 'sky_sports_cricket', this)">Sky Sports Cricket</button>
+            <button class="channel-btn" onclick="loadCh('https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F480p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778', 'tnt_sports_1', this)">TNT Sports 1</button>
+            <button class="channel-btn" onclick="loadCh('https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778', 'tnt_sports_2', this)">TNT Sports 2</button>
+            <button class="channel-btn" onclick="loadCh('https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F720p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778', 'tnt_sports_4', this)">TNT Sports 4</button>
+            
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN1HD', 'sony_sports_1', this)">Sony Sports 1</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN2HD', 'sony_sports_2', this)">Sony Sports 2</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN3HD', 'sony_sports_3', this)">Sony Sports 3</button>
+            
+            <!-- Updated T Sports -->
+            <button class="channel-btn" onclick="loadCh('https://matcheslinkz-five.vercel.app/play?id=FC1', 't_sports', this)">T Sports</button>
+            
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=E1SD', 'ss1_sd', this)">SS 1 SD</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-ten-1-hd', 'ten1_hd', this)">Sony Ten 1 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-ten-2-hd', 'ten2_hd', this)">Sony Ten 2 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-ten-3', 'ten3_hd', this)">Sony Ten 3 HD</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-ten-4-hd', 'ten4_hd', this)">Sony Ten 4</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=SMAX', 'smax_hd', this)">Sony Max HD</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-ten-5', 'ten5_hd', this)">Sony Ten 5</button>
+            <button class="channel-btn" onclick="loadCh('https://khel-box.github.io/Wlo', 'willow', this)">Willow Sports</button>
+            <button class="channel-btn" onclick="loadCh('https://khel-box.github.io/Willext/', 'willow_ios', this)">Willow !OS</button>
+            <button class="channel-btn" onclick="loadCh('https://allrounder2-0.pages.dev/cricket/willow', 'willow_cric', this)">Willow Cricbuzz</button>
+            
+            <!-- Updated FanCode & FanCode Eng -->
+            <button class="channel-btn" onclick="loadCh('https://fcw-4c3.pages.dev/player_india?url=https%3A%2F%2Fallinonereborn2.online%2Ffctest%2Fplaylists%2Fmatch_4249778_ENG%2Fenglish.m3u8', 'fancode', this)">FanCode</button>
+            <button class="channel-btn" onclick="loadCh('https://dekhobhai.pages.dev/Fancodee/play.html?id=4249778_eng&s=0', 'fancode_eng', this)">FanCode Eng</button>
+            
+            <!-- New Channels -->
+            <button class="channel-btn" onclick="loadCh('https://tv4wav.pages.dev/?app=crichd&id=willowusa', 'willow_usa', this)">Willow USA</button>
+            <button class="channel-btn" onclick="loadCh('https://tv4wab.wapka.site?https://a96aivottlinear-a.akamaihd.net/OTTB/iad-nitro/live/clients/dash/enc/b4ucq4oftf/out/v1/cd942b7b9a8d40d4af75866734dac72a/cenc.mpd0bbbc154dd73f9ccee54dd1112458616:20322e913ab288675fc246c1158c8410', 'willow_cric2', this)">Willow Cricbuzz 2</button>
+            <button class="channel-btn" onclick="loadCh('https://cine-engvspak-ios.pages.dev', 'ptv_sports', this)">PTV Sports</button>
+            
+            <!-- Updated Ten Cricket & Willow Extra -->
+            <button class="channel-btn" onclick="loadCh('https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F1080p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778', 'ten_cricket', this)">Ten Cricket</button>
+            <button class="channel-btn" onclick="loadCh('https://dekhobhai.pages.dev/ENG', 'willow_extra', this)">Willow Extra</button>
+            
+            <!-- Updated CPL & Flow Sports -->
+            <button class="channel-btn" onclick="loadCh('https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249214_hindi_hls_58428cc2d396091_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1790134901~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249214_hindi_hls_58428cc2d396091_1ta-di_h264%2F*~Signature%3DAUh_zpXA5siZeReS7Mr0fzW-mrpsVxltO8HpICkyj1joxgqATCxK9oi6vR9Gp-5dmixKWglkiI7uK1WOV17hl2gtwycM&title=India%20tour%20of%20Japan%2C%202026%20%5BHindi%5D&match_id=4249214', 'cpl', this)">CPL</button>
+            <button class="channel-btn" onclick="loadCh('https://cric-fc.pages.dev/play?id=4249778_ENG&lang=en', 'flow_sports', this)">Flow Sports</button>
+            
+            <!-- Requested New Channels (Sony Sab & Sony Pal updated with requested links) -->
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN1', 'liv_1', this)">LIV 1</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN2', 'liv_2', this)">LIV 2</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN3', 'liv_3', this)">LIV 3</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STENT', 'liv_4', this)">LIV 4</button>
+            <button class="channel-btn" onclick="loadCh('https://sonucdn-v2.pages.dev/star?id=STEN5', 'liv_5', this)">LIV 5</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sab-hd', 'sony_sab', this)">Sony Sab</button>
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-pal', 'sony_pal', this)">Sony Pal</button>
+            
+            <!-- New Sony Set Channel Added -->
+            <button class="channel-btn" onclick="loadCh('https://suniliv.pages.dev/ptest1?id=sony-hd', 'sony_set', this)">Sony Set</button>
+        </div>
     </div>
-</div>
 
-<div class="floating-sidebar hide-on-share-permanent">
-    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="sidebar-icon sidebar-wp"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="sidebar-icon sidebar-tg"><i class="fab fa-telegram"></i></a>
-</div>
-
-<header class="header" id="site-header"><h1>CRICKETLIVE! OFFICIAL</h1></header>
-
-<div id="live-signal-box">
-    <div id="live-signal"><span class="green-dot"></span>LIVE</div>
-    <button class="refresh-btn" onclick="refreshPlayer()"><i class="fas fa-sync-alt"></i> Refresh Stream</button>
-</div>
-
-<div class="video-wrapper">
-    <div id="loading-skeleton" class="skeleton"></div>
-    <div id="watermark">CricketLIVE! Official</div>
-    <div id="player-container"><div style="color: #64748b; padding-top: 20%; font-size: 13px;">Channel Select Karein...</div></div>
-</div>
-
-<div class="reaction-bar" id="reaction-bar">
-    <div class="react-btn" onclick="react('&#128293;')">&#128293;</div>
-    <div class="react-btn" onclick="react('6️⃣')">6️⃣</div>
-    <div class="react-btn" onclick="react('&#129321;')">&#129321;</div>
-    <div class="react-btn" onclick="react('4️⃣')">4️⃣</div>
-    <div class="react-btn" onclick="react('&#128079;')">&#128079;</div>
-</div>
-
-<div id="main-grid" class="hide-on-share-permanent">
-    <div class="section-title">LIVE CHANNELS</div>
-    <div class="channel-grid">
-        <button class="channel-button cricbuzz-btn" data-slug="cricbuzz_1" onclick="loadMatch('cricbuzz_1')">CRICBUZZ 1</button>
-        <button class="channel-button" data-slug="willow" onclick="loadMatch('willow')">WILLOW SPORTS</button>
-        <button class="channel-button" data-slug="willow_ios" style="background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid #00d2ff;" onclick="loadMatch('willow_ios')">WILLOW IOS</button>
-        <button class="channel-button india-btn" data-slug="ss1_hd" onclick="loadMatch('ss1_hd')">Star Sports 1 HD</button>
-        <button class="channel-button india-btn" data-slug="ss1_hd_hindi" onclick="loadMatch('ss1_hd_hindi')">Star Sports 1 HD Hindi</button>
-        <button class="channel-button india-btn" data-slug="ss1_hd_tamil" onclick="loadMatch('ss1_hd_tamil')">Star Sports 1 HD Tamil</button>
-        <button class="channel-button india-btn" data-slug="ss2_hd" onclick="loadMatch('ss2_hd')">Star Sports 2 HD</button>
-        <button class="channel-button india-btn" data-slug="ss2_sd_hindi" onclick="loadMatch('ss2_sd_hindi')">Star Sports 2 SD Hindi</button>
-        <button class="channel-button india-btn" data-slug="ss2_hd_hindi" onclick="loadMatch('ss2_hd_hindi')">Star Sports 2 HD Hindi</button>
-        <button class="channel-button india-btn" data-slug="ss_select_1hd" onclick="loadMatch('ss_select_1hd')">Star Sports Select 1HD</button>
-        <button class="channel-button" data-slug="dd_sports" style="background: #004e92;" onclick="loadMatch('dd_sports')">DD Sports</button>
-        <button class="channel-button ptv-btn" data-slug="sky_sports_2" onclick="loadMatch('sky_sports_2')">Sky Sports 2</button>
-        <button class="channel-button sony-btn" data-slug="euro_sports_hd" onclick="loadMatch('euro_sports_hd')">Euro Sports HD</button>
-        <button class="channel-button" data-slug="fox_501" style="background: linear-gradient(45deg, #111, #333); border: 1px solid #ffaa00;" onclick="loadMatch('fox_501')">FOX SPORTS 501</button>
-        <button class="channel-button sony-btn" data-slug="sony_sports_1_hd" onclick="loadMatch('sony_sports_1_hd')">Sony Sports 1 HD</button>
-        <button class="channel-button sony-btn" data-slug="sony_sports_4_hindi" onclick="loadMatch('sony_sports_4_hindi')">Sony Sports 4 Hindi</button>
-        <button class="channel-button sony-btn" data-slug="sony_sports_5" onclick="loadMatch('sony_sports_5')">Sony Sports 5</button>
-        <button class="channel-button" data-slug="tnt_sports_2" onclick="loadMatch('tnt_sports_2')">TNT Sports 2</button>
-        <button class="channel-button" data-slug="fancode" onclick="loadMatch('fancode')">FanCode</button>
-        <button class="channel-button sony-btn" data-slug="sony_liv" onclick="loadMatch('sony_liv')">Sony LIV</button>
-        <button class="channel-button sony-btn" data-slug="sony_liv_hindi" onclick="loadMatch('sony_liv_hindi')">Sony LIV Hindi</button>
-        <button class="channel-button cricbuzz-btn" data-slug="willow_cricbuzz_usa" onclick="loadMatch('willow_cricbuzz_usa')">Willow Cricbuzz USA</button>
-        <button class="channel-button" data-slug="sky_sports_nz_1" style="background: linear-gradient(45deg, #002D62, #00509D);" onclick="loadMatch('sky_sports_nz_1')">Sky Sports NZ 1</button>
-        <button class="channel-button" data-slug="sky_sports_nz_2" style="background: linear-gradient(45deg, #002D62, #00509D);" onclick="loadMatch('sky_sports_nz_2')">Sky Sports NZ 2</button>
-        <button class="channel-button" data-slug="sky_sports_nz_3" style="background: linear-gradient(45deg, #002D62, #00509D);" onclick="loadMatch('sky_sports_nz_3')">Sky Sports NZ 3</button>
-        <button class="channel-button" data-slug="and_tv" style="background: linear-gradient(45deg, #8A2BE2, #4B0082);" onclick="loadMatch('and_tv')">&TV</button>
-        <button class="channel-button" data-slug="and_pictures_sd" style="background: linear-gradient(45deg, #8A2BE2, #4B0082);" onclick="loadMatch('and_pictures_sd')">& Pictures SD</button>
-        <button class="channel-button" data-slug="and_pictures_hd" style="background: linear-gradient(45deg, #8A2BE2, #4B0082);" onclick="loadMatch('and_pictures_hd')">& Pictures HD</button>
-        <button class="channel-button" data-slug="zee_tv" style="background: linear-gradient(45deg, #0047AB, #001848);" onclick="loadMatch('zee_tv')">Zee TV</button>
-        <button class="channel-button" data-slug="zee_tv_hd" style="background: linear-gradient(45deg, #0047AB, #001848);" onclick="loadMatch('zee_tv_hd')">Zee TV HD</button>
-        <button class="channel-button" data-slug="z_cinema_hd" style="background: linear-gradient(45deg, #0047AB, #001848);" onclick="loadMatch('z_cinema_hd')">Z Cinema HD</button>
-        <button class="channel-button sony-btn" data-slug="sony_entertainment_hd" onclick="loadMatch('sony_entertainment_hd')">Sony Entertainment HD</button>
-        <button class="channel-button sony-btn" data-slug="sony_sab" onclick="loadMatch('sony_sab')">Sony Sab</button>
-        <button class="channel-button sony-btn" data-slug="sony_pal" onclick="loadMatch('sony_pal')">Sony Pal</button>
-        <button class="channel-button sony-btn" data-slug="sony_yay" onclick="loadMatch('sony_yay')">Sony Yay</button>
-        <button class="channel-button sony-btn" data-slug="sony_max_hd" onclick="loadMatch('sony_max_hd')">Sony Max HD</button>
-        <button class="channel-button sony-btn" data-slug="sony_max_2" onclick="loadMatch('sony_max_2')">Sony Max 2</button>
-        <button class="channel-button sony-btn" data-slug="sony_wah" onclick="loadMatch('sony_wah')">Sony Wah</button>
-        <button class="channel-button sony-btn" data-slug="sony_pix" onclick="loadMatch('sony_pix')">Sony Pix</button>
-        <button class="channel-button sony-btn" data-slug="bbc_earth" onclick="loadMatch('bbc_earth')">BBC Earth</button>
-        <button class="channel-button" data-slug="colors_hd" style="background: linear-gradient(45deg, #FF1493, #C71585);" onclick="loadMatch('colors_hd')">Colours HD</button>
-        <button class="channel-button india-btn" data-slug="star_gold_hd" onclick="loadMatch('star_gold_hd')">Star Gold HD</button>
-        <button class="channel-button india-btn" data-slug="star_plus_hd" onclick="loadMatch('star_plus_hd')">Star Plus HD</button>
-        <button class="channel-button india-btn" data-slug="star_bharat_hd" onclick="loadMatch('star_bharat_hd')">Star Bharat HD</button>
+    <div class="popup-overlay show" id="popup">
+        <div class="popup-box">
+            <div class="popup-icon-container">
+                <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 11.944.01c3.172.001 6.155 1.233 8.391 3.474 2.236 2.24 3.466 5.227 3.464 8.397-.004 6.548-5.34 11.887-11.885 11.887-2.008-.002-3.98-.51-5.732-1.472L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.413 9.863-9.83.001-2.624-1.023-5.09-2.885-6.951C16.452 1.961 13.991.937 11.439.937c-5.438 0-9.863 4.414-9.866 9.831-.001 1.673.456 3.305 1.32 4.743L1.873 21.6l6.302-1.647zM17.13 14.15c-.31-.156-1.833-.905-2.115-1.008-.282-.103-.489-.156-.69.156-.202.312-.781 1.008-.957 1.213-.177.206-.353.23-.663.075-.312-.156-1.316-.486-2.507-1.548-.927-.827-1.553-1.849-1.735-2.16-.182-.312-.02-.48.136-.635.141-.14.312-.363.468-.546.156-.182.208-.312.312-.52.104-.207.052-.39-.026-.546-.078-.156-.69-1.662-.946-2.277-.25-.6-.525-.518-.72-.528l-.615-.01c-.213 0-.56.08-.854.4-.294.32-1.123 1.101-1.123 2.686 0 1.585 1.153 3.118 1.313 3.326.16.207 2.27 3.466 5.497 4.864.768.332 1.367.53 1.834.679.773.245 1.477.21 2.035.127.62-.093 1.833-.75 2.09-1.473.256-.723.256-1.343.18-1.473-.076-.13-.283-.207-.593-.364z"/></svg>
+            </div>
+            <h3>CricketLIVE! Official</h3>
+            <div class="popup-divider"></div>
+            <p>Join our WhatsApp for free live streams, match updates, and exclusive content. Follow our updates channel to stay notified instantly!</p>
+            <div class="popup-actions">
+                <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="btn-action btn-join">Join Now</a>
+                <button class="btn-action btn-stream" onclick="hidePopup()">Continue to Stream</button>
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="hide-on-share-permanent" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px auto; width: 94%;">
-    <div id="sharePreview">Select a channel...</div>
-    <button class="copy-btn" id="copyBtn" onclick="copyShareMessage()">COPY</button>
-    <button class="wp-share-btn" onclick="whatsappShare()"><i class="fab fa-whatsapp"></i></button>
-</div>
+    <script>
+        const channelMap = {
+            'ss1_hd': 'https://sonucdn-v2.pages.dev/star?id=E1HD',
+            'ss1_sd_h': 'https://sonucdn-v2.pages.dev/star?id=H1SD',
+            'ss1_hd_h': 'https://sonucdn-v2.pages.dev/star?id=H1HD',
+            'ss2_hd': 'https://sonucdn-v2.pages.dev/star?id=E2HD',
+            'ss2_sd': 'https://sonucdn-v2.pages.dev/star?id=E2SD',
+            'ss2_hd_h_new': 'https://sonucdn-v2.pages.dev/star?id=H2HD',
+            'ss2_hd_h': 'https://sonucdn-v2.pages.dev/star?id=H2SD',
+            'sliv_h': 'https://sonucdn-v2.pages.dev/star?id=SETHD',
+            'sliv_3_h': 'https://jioforcine.pages.dev/?id=STEN3',
+            'sliv_e': 'https://sonucdn-v2.pages.dev/star?id=STEN5HD',
+            'sliv_tamil': 'https://jioforcine.pages.dev/?id=STENT',
+            'sliv_telugu': 'https://jioforcine.pages.dev/?id=STENTU',
+            'ss3': 'https://sonucdn-v2.pages.dev/star?id=SS3',
+            'ss3_sd': 'https://sonucdn-v2.pages.dev/star?id=E1SD',
+            'star_sports_khel': 'https://tv4wab.wapka.site?https://jiotvpllive.cdn.jio.com/bpk-tv/StarSportsKhel_BTS/WDVLive/index.mpdab947ddbb9795d38bff35597b4f731082671e22eb7dc174c35b6aad4b113f7b0&__hdnea__=st=1788842404~exp=1788864004~acl=/bpk-tv/StarSportsKhel_BTS/WDVLive/*~hmac=1254104fb87e1a351cada78a474ff3cf304408bb6e2bee73d5e03937ae4c57dc',
+            'ss3_new': 'https://tv4wav.pages.dev/?app=jiohd&id=33722',
+            'cricbuzz': 'https://tv4wab.wapka.site?https://a96aivottlinear-a.akamaihd.net/OTTB/iad-nitro/live/clients/dash/enc/gkswvaanl4/out/v1/4a1a46cdef9345a3a047588cfa523b40/cenc.mpd29909175882bb66557e51b765266c822:920b51ab82b6b1250aba897885467ca3',
+            
+            /* Updated Links in Map */
+            'sky_sports_cricket': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F360p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778',
+            'tnt_sports_1': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F480p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778',
+            'tnt_sports_2': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778',
+            'tnt_sports_4': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F720p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778',
+            
+            'sony_sports_1': 'https://sonucdn-v2.pages.dev/star?id=STEN1HD',
+            'sony_sports_2': 'https://sonucdn-v2.pages.dev/star?id=STEN2HD',
+            'sony_sports_3': 'https://sonucdn-v2.pages.dev/star?id=STEN3HD',
+            
+            /* Updated T Sports */
+            't_sports': 'https://matcheslinkz-five.vercel.app/play?id=FC1',
+            
+            'ss1_sd': 'https://sonucdn-v2.pages.dev/star?id=E1SD',
+            'ten1_hd': 'https://suniliv.pages.dev/ptest1?id=sony-ten-1-hd',
+            'ten2_hd': 'https://suniliv.pages.dev/ptest1?id=sony-ten-2-hd',
+            'ten3_hd': 'https://suniliv.pages.dev/ptest1?id=sony-ten-3',
+            'ten4_hd': 'https://suniliv.pages.dev/ptest1?id=sony-ten-4-hd',
+            'smax_hd': 'https://sonucdn-v2.pages.dev/star?id=SMAX',
+            'ten5_hd': 'https://suniliv.pages.dev/ptest1?id=sony-ten-5',
+            'willow': 'https://khel-box.github.io/Wlo',
+            'willow_ios': 'https://khel-box.github.io/Willext/',
+            'willow_cric': 'https://allrounder2-0.pages.dev/cricket/willow',
+            
+            /* Updated FanCode & FanCode Eng */
+            'fancode': 'https://fcw-4c3.pages.dev/player_india?url=https%3A%2F%2Fallinonereborn2.online%2Ffctest%2Fplaylists%2Fmatch_4249778_ENG%2Fenglish.m3u8',
+            'fancode_eng': 'https://dekhobhai.pages.dev/Fancodee/play.html?id=4249778_eng&s=0',
+            
+            'willow_usa': 'https://tv4wav.pages.dev/?app=crichd&id=willowusa',
+            'willow_cric2': 'https://tv4wab.wapka.site?https://a96aivottlinear-a.akamaihd.net/OTTB/iad-nitro/live/clients/dash/enc/b4ucq4oftf/out/v1/cd942b7b9a8d40d4af75866734dac72a/cenc.mpd0bbbc154dd73f9ccee54dd1112458616:20322e913ab288675fc246c1158c8410',
+            'ptv_sports': 'https://cine-engvspak-ios.pages.dev',
+            
+            /* Updated Ten Cricket & Willow Extra */
+            'ten_cricket': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F1080p.m3u8%3Fhdntl%3DExpires%3D1790321684~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249778_english_hls_a11e04665e35882_1ta-di_h264%2F*~Signature%3DAUh_zpW-fGy5X0PDjOHSsjThHZe9XkZ7WpfMGSkmrPlmzQp02-bx8yZx72rnaNP2ivTu7fDBi3mhx7T3RhI_5eIhJL0D&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249778',
+            'willow_extra': 'https://dekhobhai.pages.dev/ENG',
+            
+            /* Updated CPL & Flow Sports */
+            'cpl': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249214_hindi_hls_58428cc2d396091_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1790134901~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249214_hindi_hls_58428cc2d396091_1ta-di_h264%2F*~Signature%3DAUh_zpXA5siZeReS7Mr0fzW-mrpsVxltO8HpICkyj1joxgqATCxK9oi6vR9Gp-5dmixKWglkiI7uK1WOV17hl2gtwycM&title=India%20tour%20of%20Japan%2C%202026%20%5BHindi%5D&match_id=4249214',
+            'flow_sports': 'https://cric-fc.pages.dev/play?id=4249778_ENG&lang=en',
+            
+            'liv_1': 'https://sonucdn-v2.pages.dev/star?id=STEN1',
+            'liv_2': 'https://sonucdn-v2.pages.dev/star?id=STEN2',
+            'liv_3': 'https://sonucdn-v2.pages.dev/star?id=STEN3',
+            'liv_4': 'https://sonucdn-v2.pages.dev/star?id=STENT',
+            'liv_5': 'https://sonucdn-v2.pages.dev/star?id=STEN5',
+            
+            /* Updated Sony Sab & Sony Pal */
+            'sony_sab': 'https://suniliv.pages.dev/ptest1?id=sab-hd',
+            'sony_pal': 'https://suniliv.pages.dev/ptest1?id=sony-pal',
+            'sony_set': 'https://suniliv.pages.dev/ptest1?id=sony-hd'
+        };
 
-<div class="social-container hide-on-share-permanent">
-    <a href="https://whatsapp.com/channel/0029Vb9sfuABA1eqJmiFc91q" target="_blank" class="join-btn-base join-wp"><i class="fab fa-whatsapp"></i> Join WhatsApp Channel</a>
-    <a href="https://t.me/TheCricketLIVEOfficial" target="_blank" class="join-btn-base join-tg"><i class="fab fa-telegram"></i> Join Telegram Channel</a>
-</div>
+        let activeId = 'ss1_hd';
+        const videoContainer = document.getElementById('videoContainer');
 
-<script>
-    const channels = {
-        'cricbuzz_1': 'https://holy-water-b004.xdfg.workers.dev/?url=https://hey-lookme.shop/cursed.php/cursed/stream.m3u8',
-        'willow': 'https://khel-box.github.io/Wlo',
-        'willow_ios': 'https://allinone-reborn.pages.dev/willo-ios',
-        'ss1_hd': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=ss1',
-        'ss1_hd_hindi': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=ss1h',
-        'ss1_hd_tamil': 'https://jtvxweb.pages.dev/pind?id=3278',
-        'ss2_hd': 'https://jjtvxweb.pages.dev/pind?id=1109',
-        'ss2_sd_hindi': 'https://jjtvxweb.pages.dev/pind?id=1141',
-        'ss2_hd_hindi': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F360p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
-        'ss_select_1hd': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F480p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
-        'dd_sports': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F540p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
-        'sky_sports_2': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F720p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
-        'euro_sports_hd': 'https://matchdekho.in/fc-play?url=https%3A%2F%2Fin-mc-flive.fancode.com%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F1080p.m3u8%3Fhdntl%3DExpires%3D1790852504~_GO%3DGenerated~acl%3D%2Fmumbai%2F4249780_english_hls_fe7666272366793_1ta-di_h264%2F*~Signature%3DARxeIm8_Bej2TYOU_Jp1JNHMLHux3GgNpdhWv2IXDod5UYxSqNUY4oMBJSpVa0T_cQZYl7aUx6rAYsQGKkA4eOB7DBoH&title=Australia%20tour%20of%20South%20Africa%2C%202026%20%5BEnglish%5D&match_id=4249780',
-        'fox_501': 'https://fcw-4c3.pages.dev/player_india?url=https%3A%2F%2Fallinonereborn2.online%2Ffctest%2Fplaylists%2Fmatch_4249780_ENG%2Fenglish.m3u8',
-        'sony_sports_1_hd': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=sony1',
-        'sony_sports_4_hindi': 'https://shwe7ank-jeeyo.netlify.app/watch.html?id=sony3',
-        'sony_sports_5': 'https://tvwap.pages.dev/?id=s5',
-        'tnt_sports_2': 'https://matcheslinkz-five.vercel.app/amz?id=B0HJX77Q8W',
-        'fancode': 'https://fcw-4c3.pages.dev/player_india?url=https%3A%2F%2Fallinonereborn2.online%2Ffctest%2Fplaylists%2Fmatch_4249095_ENG%2Fenglish.m3u8',
-        'sony_liv': 'https://tvgotk.wapka.site/?id=sliv1',
-        'sony_liv_hindi': 'https://teamro.wapka.site/?id=sliv3',
-        'willow_cricbuzz_usa': 'https://streamhub.dhruvpatil681.workers.dev/2026.m3u8',
-        'sky_sports_nz_1': 'http://45.12.32.190:8080/UK-SkySport1NZ/video.m3u8',
-        'sky_sports_nz_2': 'http://45.12.32.190:8080/UK-SkySport2NZ/video.m3u8',
-        'sky_sports_nz_3': 'http://45.12.32.190:8080/UK-SkySport3NZ/video.m3u8',
-        'and_tv': 'https://tv4wab.wapka.site?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Andtvhd/default/index.mpd67d18634ccb04875875c60fb8d9caaba99a66471c09e4b8a8dc39a0de6803f75',
-        'and_pictures_sd': 'https://tv4wab.wapka.site?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Andpictures/default/manifest.mpd7a214a974e4f4d1d9bb66364d5f0cb928dea532cabfe4f71ba20f62310e7949f',
-        'and_pictures_hd': 'https://tv4wab.wapka.site?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Andpictureshd/default/index.mpdde8045e9f0fb4d03845dcc4a8bd7712a6807bd09bda34ada83152908192af6d6',
-        'zee_tv': 'https://tv4wab.wapka.site/?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeetv/default/manifest.mpdbb722190f2bb446391020411a7d0828bed068cf84f0640ccbc7c0e395c0a272e',
-        'zee_tv_hd': 'https://tv4wab.wapka.site/?https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeetvhd/default/manifest.mpdbb722190f2bb446391020411a7d0828bed068cf84f0640ccbc7c0e395c0a272e',
-        'z_cinema_hd': 'https://da86m1sqpm3o0.cloudfront.net/28072023/smil:zeecinemaapachd.smil/chunklist_b2628000.m3u8',
-        'sony_entertainment_hd': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-hd',
-        'sony_sab': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-sab',
-        'sony_pal': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-pal',
-        'sony_yay': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-yay',
-        'sony_max_hd': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-max-hd',
-        'sony_max_2': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-max2',
-        'sony_wah': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-wah',
-        'sony_pix': 'https://allinonereborn2.online/sony/ptest1.html?id=sony-pix-hd',
-        'bbc_earth': 'https://allinonereborn2.online/sony/ptest1.html?id=bbc-earth',
-        'colors_hd': 'https://jjtvxweb.pages.dev/pind?id=144',
-        'star_gold_hd': 'https://jjtvxweb.pages.dev/pind?id=156',
-        'star_plus_hd': 'https://jjtvxweb.pages.dev/pind?id=1132',
-        'star_bharat_hd': 'https://jjtvxweb.pages.dev/pind?id=931'
-    };
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('popup').classList.add('show');
+            const params = new URLSearchParams(window.location.search);
+            if(params.has('share')) {
+                const targetId = params.get('share');
+                if(channelMap[targetId]) {
+                    document.body.classList.add('share-mode');
+                    activeId = targetId;
+                    applyWillowFix(activeId);
+                    document.getElementById('player').src = channelMap[targetId];
+                }
+            }
+        });
 
-    let currentChannel = null;
-    let popupClosed = false;
-
-    function loadMatch(slug) {
-        if (!channels[slug]) return;
-        currentChannel = slug;
-        const container = document.getElementById('player-container');
-        document.getElementById('loading-skeleton').style.display = 'block';
-        document.querySelectorAll('.channel-button').forEach(btn => btn.classList.remove('active-channel'));
-        const targetBtn = document.querySelector(`[data-slug="${slug}"]`);
-        if (targetBtn) {
-            targetBtn.classList.add('active-channel');
-            document.title = `🔴 LIVE: ${targetBtn.innerText} | CRICKETLIVE!`;
+        function applyWillowFix(id) {
+            if(id === 'willow_ios') {
+                videoContainer.classList.add('willow-ios-mode');
+            } else {
+                videoContainer.classList.remove('willow-ios-mode');
+            }
         }
-        let customClass = '';
-        if (slug === 'willow_ios') {
-            customClass = 'class="zoom-ios"';
-        } else if (slug === 'cricbuzz_1') {
-            customClass = 'class="zoom-cricbuzz-nozoom"';
-        }
-        const sandboxAttr = 'sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"';
-        
-        if (slug === 'cricbuzz_1') {
-            container.innerHTML = `<div class="ad-block-container"><iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe></div>`;
-        } else {
-            container.innerHTML = `<iframe id="main-player" ${customClass} src="${channels[slug]}" ${sandboxAttr} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" scrolling="no" loading="lazy" onload="hideSkeleton()"></iframe>`;
-        }
-        
-        setTimeout(() => { hideSkeleton(); }, 4000);
-        if (popupClosed) showUIParts();
-        document.getElementById('watermark').style.display = 'inline-block';
-        document.getElementById('sharePreview').innerText = `${window.location.origin}${window.location.pathname}?ch=${slug}`;
-    }
 
-    function refreshPlayer() { if (currentChannel) loadMatch(currentChannel); }
-    function hideSkeleton() { document.getElementById('loading-skeleton').style.display = 'none'; }
-    function showUIParts() { if (currentChannel && popupClosed) { document.getElementById('live-signal-box').style.display = 'flex'; document.getElementById('reaction-bar').style.display = 'flex'; } }
-    function closePopup() { document.getElementById('entry-popup').style.display = 'none'; popupClosed = true; showUIParts(); }
-    
-    function react(emoji) { const el = document.createElement('div'); el.className = 'floating-emoji'; el.innerHTML = emoji; el.style.left = `${Math.random() * 60 + 20}%`; document.body.appendChild(el); setTimeout(() => el.remove(), 2000); }
-    function copyShareMessage() { const linkText = document.getElementById('sharePreview').innerText; navigator.clipboard.writeText(linkText); document.getElementById('copyBtn').innerText = "DONE!"; setTimeout(() => { document.getElementById('copyBtn').innerText = "COPY"; }, 2000); }
-    function whatsappShare() { const linkText = document.getElementById('sharePreview').innerText; window.open(`https://api.whatsapp.com/send?text=Watch Live Cricket Here: ${encodeURIComponent(linkText)}`, '_blank'); }
+        function hidePopup() { document.getElementById('popup').classList.remove('show'); }
 
-    window.onload = function() {
-        const ch = new URLSearchParams(window.location.search).get('ch');
-        if (ch && channels[ch]) {
-            document.querySelectorAll('.hide-on-share-permanent').forEach(el => el.style.display = 'none');
-            loadMatch(ch);
-        } else {
-            document.getElementById('entry-popup').style.display = 'flex';
+        function loadCh(url, id, btn) {
+            activeId = id;
+            applyWillowFix(id);
+            const player = document.getElementById('player');
+            player.src = '';
+            setTimeout(() => { player.src = url; }, 50);
+            document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
         }
-    };
-</script>
+
+        function copyLink() {
+            const cleanShareUrl = window.location.origin + window.location.pathname + '?share=' + activeId;
+            navigator.clipboard.writeText(cleanShareUrl).then(() => { alert('Link copied: ' + cleanShareUrl); });
+        }
+
+        function shareToWhatsAppDirect() {
+            const cleanShareUrl = window.location.origin + window.location.pathname + '?share=' + activeId;
+            const shareText = "Watch Live Cricket Match Stream Here: " + cleanShareUrl;
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText), "_blank");
+        }
+
+        const lockOrientation = () => {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullscreenElement) {
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock("landscape").catch(err => console.log("Orientation lock failed"));
+                }
+            } else {
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
+        };
+
+        document.addEventListener("fullscreenchange", lockOrientation);
+        document.addEventListener("webkitfullscreenchange", lockOrientation);
+        document.addEventListener("mozfullscreenchange", lockOrientation);
+    </script>
 </body>
 </html>
